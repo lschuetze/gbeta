@@ -1,0 +1,115 @@
+
+<html>
+<!-- Generated with M4 on the date shown at the bottom of this page -->
+<head><title>gbeta: Lazy Analysis</title></head>
+<link rel="stylesheet" type="text/css" href="style/gbeta.css"/>
+<body class="page">
+<table width="100%">
+<tr><td align="right"></td></tr>
+<tr><td align="left"><h1 class="pagetitle">Lazy Analysis</h1></td></tr>
+</table>
+<p><hr></p>
+
+<p>
+When the <code>-l</code> option is given:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>gbeta -l ...</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+<font class="gbeta">gbeta</font> will execute in the <em>lazy analysis</em> mode.  This means
+that static analysis is only carried out to an extent which is
+sufficient to determine the semantics of the program, and it is 
+done lazily, i.e. on demand.  In general, you get faster response and
+less safety.  If your program does not give any problems during a normal
+static analysis (non-lazy), then you can run it (unchanged) lazily and
+have the normal safety guarantees.
+</p>
+
+<h3 class="pagetitle">Analysis happens later, and only where you go</h3>
+
+<p>
+When running in the lazy analysis mode, <font class="gbeta">gbeta</font> only obtains
+static information, such as the type of a declared name, at the time
+when it is first needed.  This means e.g. that you can go through a
+session which only uses a small part of a big program (perhaps because
+it includes a lot of libraries), and only that small part of the
+program will be analyzed statically.  The rest of the program may have
+all kinds of flaws (except bad syntax), and it will not be discovered,
+but on the other hand you get a much faster startup process.
+</p>
+
+<h3 class="pagetitle">Fewer things are checked</h3>
+
+<p>
+Not only unused parts of a program are not analyzed.  Several other
+aspects of static analysis are not needed in order to choose the
+semantically correct actions to take during execution.  For example,
+the number and type of arguments given in a method call are not
+checked statically in lazy analysis mode.  This means that an
+invocation which e.g. gives a wrong number of arguments in a method
+call will give rise to a run-time error in stead of a (err .. also
+run-time, since it is late) type-checking error.  
+</p>
+
+<p>
+As an example, the program:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>
+-- betaenv:descriptor:gbeta --
+(#
+   p: @integer
+do 
+   (1,2)->p
+#)</pre></td></tr>
+  </table>
+</p>
+
+<p>
+will give the following response:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre><small>gbeta -l late
+GBETA version 1.9.11, copyright (C) 1997-2011 Erik Ernst.
+...
+**** Run-time error; offending thread killed.
+ibetaTwoEvalbody.bet/118, the exit list produced too many values for the enter list!
+Look at ./late.dump<small></pre></td></tr>
+  </table>
+</p>
+
+<p>
+As you can see, there is a reference to a specific position in the
+source code of the implementation of <font class="gbeta">gbeta</font>.  This is because the
+errors encountered because of the incomplete analysis in lazy mode
+used to be internal errors (bugs!) in <font class="gbeta">gbeta</font>.  As a consequence, the
+response in case of a run-time error encountered in lazy mode may be a
+little rough.
+</p>
+
+<p><hr></p>
+<address>
+  <strong>Maintainer:</strong>
+  Erik Ernst,
+  <a href="mailto:eernst@cs.au.dk">eernst@cs.au.dk</a>.<br><br>
+  This page was updated on 17-Apr-2011
+<br>
+  URL - http://cs.au.dk/~eernst/gbeta/lazy.html
+</address>
+</body>
+</html>
+

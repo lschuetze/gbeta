@@ -1,0 +1,269 @@
+
+<html>
+<!-- Generated with M4 on the date shown at the bottom of this page -->
+<head><title>gbeta: Control Structures</title></head>
+<link rel="stylesheet" type="text/css" href="style/gbeta.css"/>
+<body class="page">
+<table width="100%">
+<tr><td align="right"></td></tr>
+<tr><td align="left"><h1 class="pagetitle">Control Structures</h1></td></tr>
+</table>
+<p><hr></p>
+
+Now that all the interesting stuff has been dealt with, we have to
+cover a few odds and ends.  This section is about the imperative
+aspect of <font class="gbeta">gbeta</font>, namely the built-in statements for unusual but
+structured transfer of control.  Ah, by the way, <code>leave</code>
+and <code>restart</code> are not boring, even though they are
+imperative constructs.
+
+<h3 class="pagetitle">Standard control structure statements</h3>
+
+<p>
+Since the 70'ties, all imperative languages (including the
+object-oriented subset) have had built-in support for "structured"
+versions of <code>GOTO</code>, now that <code>GOTO</code> had been
+deemed harmful..
+</p>
+
+<p>
+As a matter of fact, BETA was designed to have a minimal collection of
+such constructs, since the generality of the pattern concept allows it
+to support all kinds of customized control structures.  As an example,
+look at <code>scan</code> in the <code>container</code> pattern of
+<a href="javascript:top.display.tuttopics.tut_activate(8);">example 6</a> in the section about virtual patterns, and the
+<code>cycle</code> pattern of <a href="javascript:top.display.tuttopics.tut_activate(10);">example 8</a>.
+</p>
+
+<p>
+The <code>if</code> statement comes in a compact version:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>"(if" &lt;Evaluation&gt; "then" .. "else" .. "if)"</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+and in a version which is similar in use to <code>"switch"</code> or
+<code>"case"</code> statements in other languages:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>"(if" &lt;Evaluation&gt;<BR>
+            "//" &lt;Evaluation&gt; "then" ..<BR>
+            "//" &lt;Evaluation&gt; "then" ..<BR>
+            ..<BR>
+            "else" ..<BR>
+            "if)"</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+The first <code>&lt;Evaluation&gt;</code> is computed and the value
+compared for equality with the <code>&lt;Evaluation&gt;</code>s after
+the <code>"//"</code> one by one, and the block of statements
+(<code>".."</code>) after the first matching value is executed.  If no
+equal values are found, the <code>else</code> statements are 
+executed.
+</p>
+
+<p>
+Finally, iterating a pre-computed number of times is supported with
+the <code>for</code> statement which also comes in two variants: 
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>"(for" &lt;Evaluation&gt; "repeat" .. "for)"</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+and 
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>"(for" &lt;Name&gt; ":" &lt;Evaluation&gt; 
+            "repeat" .. "for)"</code></td></tr>
+    </table>
+  </div>
+</p> 
+
+<p>
+The first variant just repeats the body <code>".."</code> <code>
+&lt;Evaluation&gt;</code> times, and the second does the same, with
+&lt;Name&gt; denoting the number of the current iteration, i.e. 1 the
+first time round, 2 the second etc.  <code>&lt;Name&gt;</code> is
+<EM>not</EM> an object, it just denotes the value, so it cannot be
+changed by assignment, and the type of it cannot be computed (using
+<code>"##"</code>), and it is not allowed to ask for a reference to it
+(using <code>"[]"</code>).
+</p>
+
+<h3 class="pagetitle">Jumping around, and unwinding the stack</h3>
+
+<p>
+The two last constructs for the transfer of control are very
+expressive, even if they look rather ordinary at the first sight.
+They are called <code>leave</code> and <code>restart</code>, and they
+are used in connection with some kind of block, e.g. a 
+<a href="javascript:top.display.tuttopics.tut_activate(2);">main part</a>. 
+</p>
+
+<p>
+The first one: 
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>"leave" &lt;Name&gt;</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+jumps to the end of the block denoted by the
+<code>&lt;Name&gt;</code>, i.e. it forces the execution of the block
+to terminate earlier than it otherwise would.  The other one:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>"restart" &lt;Name&gt;</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+jumps to the beginning of the block denoted by the
+<code>&lt;Name&gt;</code>, i.e. it forces the execution of the block
+to start from the beginning again.
+</p>
+
+<p>
+The reason why this is not entirely trivial is that we may have (due
+to the <a href="javascript:top.display.tuttopics.tut_activate(4);">coercion</a>) objects on the stack between the one
+associated with the enclosing block and the one which is currently
+executing.  In other words, <code>leave</code> may imply a stack
+unwinding which forcefully terminates the execution of any number of
+objects before the target object (associated with the target position
+in the source code) is at the top of the stack.  Moreover, the number
+of objects to unwind off the stack may not be statically determinable.
+</p>
+
+<p>
+This resembles the exception handling mechanisms of other languages,
+e.g. the <code>try</code> and <code>catch</code> pair of C++.  The
+most important difference is that the combination of coercion, block
+structure, and <code>leave</code>/<code>restart</code> makes it
+possible to have a statically determined target for the "long jump" in
+BETA, whereas the stack unwinding in e.g. C++ only terminates in an
+ordered fashion if a <code>catch</code>er happens to be on the
+run-time stack.  In Java, this (missing) safety property has been
+reinstated by using strict exception declarations on all methods.  On
+the other hand, this pervades the entire program, even if lots of
+intermediate routines would otherwise not have to depend on the 
+given exception handling strategy.
+</p>
+
+<h3 class="pagetitle">Example 10</h3>
+
+<p>
+Here is an example which by the way also demonstrates how it is
+possible to create a recursive procedure which will call the
+specialized version of itself in specializations.  This is not a
+problem with <font class="gbeta">gbeta</font>, it's an obstacle which never occurs in languages
+that do not support specialization of behavior in the first place,
+such as anything but BETA and CLOS..  Anyway, we need a notion of
+<EM>selfType</EM> or <EM>myType</EM> or whatever else that concept has
+been designated in the literature, and again <a href="javascript:top.display.tuttopics.tut_activate(4);">coercion</a> comes
+to the rescue, since <code>this(recur)</code> denotes the currently
+enclosing object which is coerced into a pattern because it is used in
+a pattern context.  As a result, <code>selfType</code> is declared to
+denote the pattern of the enclosing object, and the type system
+recognizes that this type is more specialized in the context of the
+anonymous specialization of <code>recur</code> which occurs in the
+main <code>do</code>-part of the program.
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>
+(* FILE ex10.gb *)
+-- betaenv:descriptor --
+(# 
+   recur:
+     (# selfType: this(recur);
+        enough:&lt; object;
+        depth: @integer
+     enter depth
+     do (if depth&gt;4 then enough if);
+        depth+1-&gt;&amp;selfType
+     #)
+do 
+   L: recur(# enough::(# do leave L #)#)
+#)</pre></td></tr>
+  </table>
+</p>
+
+<p>
+You might want to compare this with the following slight variation:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>
+-- betaenv:descriptor --
+(# 
+   recur:
+     (# enough:&lt; object;
+        depth: @integer
+     enter depth
+     do (if depth&gt;4 then enough if);
+        depth+1-&gt;&amp;recur
+     #)
+do 
+   L: recur(# enough::(# do leave L #)#)
+#)</pre></td></tr>
+  </table>
+</p>
+
+<p>
+The <code>"&amp;"</code> operator which marks explicit object
+instantiation is covered <a href="javascript:top.display.tuttopics.tut_activate(14);">later</a>.  Just before that, the
+<a href="javascript:top.display.tuttopics.tut_next();">next</a> topic is repetitions.
+</p>
+
+<p><hr></p>
+<address>
+  <strong>Maintainer:</strong>
+  Erik Ernst,
+  <a href="mailto:eernst@cs.au.dk">eernst@cs.au.dk</a>.<br><br>
+  This page was updated on 17-Apr-2011
+<br>
+  URL - http://cs.au.dk/~eernst/gbeta/tut12.html
+</address>
+</body>
+</html>
+

@@ -1,0 +1,116 @@
+Beta execution aborted: Segmentation fault.
+
+Call chain: (linux)
+
+Current object is zero!
+  [ EXTERNAL ACTIVATION PART (address 0x8111723) ]
+  [NONE]
+  item <Indent#> in ~beta/meta/generator
+  item <patbegin#> in ~beta/meta/generator
+  item <generateConstructor#> in ~beta/meta/makepat
+  item <*>scan# in ~beta/meta/makepat
+  allocating item *<scan#> in ~beta/mps/astlevel
+  item *<scan#> in ~beta/mps/astlevel
+  item <generatePatterns#> in ~beta/meta/makepat
+  item <MAKEPATTERNS-~> in ~beta/meta/makepat
+  item <generateFragment#> in ~beta/meta/generator
+  item <checkForm#> in ~beta/meta/generator
+  item <*>scan# in ~beta/meta/generator
+  item *<scan#> in ~beta/containers/container
+  item <thescanner#>theScanner# in ~beta/containers/list
+  item thescanner#<theScanner#> in ~beta/containers/container
+  item *<scan#> in ~beta/containers/container
+  item <checkGroup#> in ~beta/meta/generator
+  item <generator#> in ~beta/meta/generator
+  comp <PROGRAM-~>astInterface# in ~beta/meta/gen
+  comp PROGRAM-~<astInterface#> in ~beta/mps/astlevel
+
+  comp <BETAENV-~> in ~beta/basiclib/betaenv
+
+
+Low level information:
+
+Call chain: (linux)
+
+Current object is zero!
+  [ EXTERNAL ACTIVATION PART (address 0x8111723 <ObjectSize+0x13>) ]
+  [NONE]
+  item <Indent#> in ~beta/meta/generator
+  { PC  0x80f725f <generator:M7+0x34>, object 0x7ffdf0a8, proto 0x813d796 Indent# [ast: 0x0001,0x0398] <T8GENERATOR> }
+    -- cflFile#File#stream# in ~beta/meta/generator
+    { Surrounding object 0x7ffdf080, proto 0x813d62a cflFile# [ast: 0x0001,0x03a6] <T3GENERATOR> }
+  item <patbegin#> in ~beta/meta/generator
+  { PC  0x80f739b <generator:M3+0xe>, object 0x800dcd30, proto 0x813d6c6 patbegin# [ast: 0x0001,0x0155] <T4GENERATOR> }
+    -- cflFile#File#stream# in ~beta/meta/generator
+    { Surrounding object 0x7ffdf080, proto 0x813d62a cflFile# [ast: 0x0001,0x03a6] <T3GENERATOR> }
+  item <generateConstructor#> in ~beta/meta/makepat
+  { PC  0x80ceebc <makepat:M19+0x10e>, object 0x800dc8b0, proto 0x81312a6 generateConstructor# [ast: 0x0001,0x157d] <T21MAKEPATTERNS> }
+    -- generatePatterns# in ~beta/meta/makepat
+    { Surrounding object 0x800b6340, proto 0x8130f2a generatePatterns# [ast: 0x0001,0x3440] <T6MAKEPATTERNS> }
+  item <*>scan# in ~beta/meta/makepat
+  { PC  0x80c933b <makepat:M50+0x29b>, object 0x800c0cc0, proto 0x813199c * [ast: 0x0001,0x3346] <T53MAKEPATTERNS> }
+    -- generatePatterns# in ~beta/meta/makepat
+    { Surrounding object 0x800b6340, proto 0x8130f2a generatePatterns# [ast: 0x0001,0x3440] <T6MAKEPATTERNS> }
+  allocating item *<scan#> in ~beta/mps/astlevel
+  { PC  0x80c1ac5 <astBody:M77+0xb0>, object 0x800c0cc0, proto 0x81429d6 scan# [ast: 0x0001,0x0cc4] <T63ASTLEVEL> }
+    -- ProductionList#list#expanded#ast# in ~beta/mps/metagrammarcfl
+    { Surrounding object 0x7ffe0de0, proto 0x813f5ea ProductionList# [ast: 0x0001,0x0157] <T14METAGRAMMARCFL> }
+  item *<scan#> in ~beta/mps/astlevel
+  { PC  0x80fe7cb <astlevel:M63+0x19>, object 0x800c0cc0, proto 0x81429d6 scan# [ast: 0x0001,0x0cc4] <T63ASTLEVEL> }
+    -- ProductionList#list#expanded#ast# in ~beta/mps/metagrammarcfl
+    { Surrounding object 0x7ffe0de0, proto 0x813f5ea ProductionList# [ast: 0x0001,0x0157] <T14METAGRAMMARCFL> }
+  item <generatePatterns#> in ~beta/meta/makepat
+  { PC  0x80c8c3b <makepat:M4+0x2fd>, object 0x800b6340, proto 0x8130f2a generatePatterns# [ast: 0x0001,0x3440] <T6MAKEPATTERNS> }
+    -- MAKEPATTERNS-~ in ~beta/meta/makepat
+    { Surrounding object 0x800b5068, proto 0x8130e82 MAKEPATTERNS-~ [ast: 0x0001,0x34aa] <T1MAKEPATTERNS> }
+  item <MAKEPATTERNS-~> in ~beta/meta/makepat
+  { PC  0x80c88ee <makepat:M1+0xe9>, object 0x800b5068, proto 0x8130e82 MAKEPATTERNS-~ [ast: 0x0001,0x34aa] <T1MAKEPATTERNS> }
+    -- generator# in ~beta/meta/generator
+    { Surrounding object 0x7ffdefa8, proto 0x813d52c generator# [ast: 0x0001,0x0dc0] <T2GENERATOR> }
+  item <generateFragment#> in ~beta/meta/generator
+  { PC  0x80f6c36 <generator:M13+0x1a0>, object 0x7ffe5280, proto 0x813d8b2 generateFragment# [ast: 0x0001,0x0650] <T15GENERATOR> }
+    -- generator# in ~beta/meta/generator
+    { Surrounding object 0x7ffdefa8, proto 0x813d52c generator# [ast: 0x0001,0x0dc0] <T2GENERATOR> }
+  item <checkForm#> in ~beta/meta/generator
+  { PC  0x80f672e <generator:M16+0x18b>, object 0x7ffe5290, proto 0x813d94a checkForm# [ast: 0x0001,0x0795] <T18GENERATOR> }
+    -- generator# in ~beta/meta/generator
+    { Surrounding object 0x7ffdefa8, proto 0x813d52c generator# [ast: 0x0001,0x0dc0] <T2GENERATOR> }
+  item <*>scan# in ~beta/meta/generator
+  { PC  0x80f6554 <generator:M18+0x496>, object 0x7ffe52a0, proto 0x813d9b6 * [ast: 0x0001,0x08e5] <T20GENERATOR> }
+    -- checkGroup# in ~beta/meta/generator
+    { Surrounding object 0x7ffe52b8, proto 0x813d980 checkGroup# [ast: 0x0001,0x08ff] <T19GENERATOR> }
+  item *<scan#> in ~beta/containers/container
+  { PC  0x80e4395 <container:M6+0x96>, object 0x7ffe52a0, proto 0x8148f1c scan# [ast: 0x0001,0x0199] <T6CONTAINER> }
+    -- fragmentListDescription#containerList#list#container# in ~beta/mps/astlevel
+    { Surrounding object 0x7ffe2bc8, proto 0x81443de fragmentListDescription# [ast: 0x0001,0x2565] <T182ASTLEVEL> }
+  item <thescanner#>theScanner# in ~beta/containers/list
+  { PC  0x80e18b6 <list:M26+0x109>, object 0x7ffe52f0, proto 0x8147ca4 thescanner# [ast: 0x0001,0x0554] <T26LIST> }
+    -- fragmentListDescription#containerList#list#container# in ~beta/mps/astlevel
+    { Surrounding object 0x7ffe2bc8, proto 0x81443de fragmentListDescription# [ast: 0x0001,0x2565] <T182ASTLEVEL> }
+  item thescanner#<theScanner#> in ~beta/containers/container
+  { PC  0x80e42cd <container:M5+0x38>, object 0x7ffe52f0, proto 0x8148ee2 theScanner# [ast: 0x0001,0x014f] <T5CONTAINER> }
+    -- fragmentListDescription#containerList#list#container# in ~beta/mps/astlevel
+    { Surrounding object 0x7ffe2bc8, proto 0x81443de fragmentListDescription# [ast: 0x0001,0x2565] <T182ASTLEVEL> }
+  item *<scan#> in ~beta/containers/container
+  { PC  0x80e4389 <container:M6+0x8a>, object 0x7ffe52a0, proto 0x8148f1c scan# [ast: 0x0001,0x0199] <T6CONTAINER> }
+    -- fragmentListDescription#containerList#list#container# in ~beta/mps/astlevel
+    { Surrounding object 0x7ffe2bc8, proto 0x81443de fragmentListDescription# [ast: 0x0001,0x2565] <T182ASTLEVEL> }
+  item <checkGroup#> in ~beta/meta/generator
+  { PC  0x80f6082 <generator:M17+0x19>, object 0x7ffe52b8, proto 0x813d980 checkGroup# [ast: 0x0001,0x08ff] <T19GENERATOR> }
+    -- generator# in ~beta/meta/generator
+    { Surrounding object 0x7ffdefa8, proto 0x813d52c generator# [ast: 0x0001,0x0dc0] <T2GENERATOR> }
+  item <generator#> in ~beta/meta/generator
+  { PC  0x80f5d1e <generator:M1+0xe5e>, object 0x7ffdefa8, proto 0x813d52c generator# [ast: 0x0001,0x0dc0] <T2GENERATOR> }
+    -- PROGRAM-~astInterface# in ~beta/meta/gen
+    { Surrounding object 0x7ffddba8, proto 0x813d198 PROGRAM-~ [ast: 0x0001,0x001f] <T1PROGRAM> }
+  comp <PROGRAM-~>astInterface# in ~beta/meta/gen
+  { PC  0x80f4e53 <gen:M1+0x16>, object 0x7ffddba8, proto 0x813d198 PROGRAM-~ [ast: 0x0001,0x001f] <T1PROGRAM> }
+    -- BETAENV-~ in ~beta/basiclib/betaenv
+    { Surrounding object 0x7ffddd18, proto 0x811c6c4 BETAENV-~ [ast: 0x0001,0x23ad] <T1BETAENV> }
+  comp PROGRAM-~<astInterface#> in ~beta/mps/astlevel
+  { PC  0x80fb864 <astlevel:M1+0x20>, object 0x7ffddba8, proto 0x8141be2 astInterface# [ast: 0x0001,0x49cc] <T1ASTLEVEL> }
+    -- BETAENV-~ in ~beta/basiclib/betaenv
+    { Surrounding object 0x7ffddd18, proto 0x811c6c4 BETAENV-~ [ast: 0x0001,0x23ad] <T1BETAENV> }
+
+  comp <BETAENV-~> in ~beta/basiclib/betaenv
+  { PC  0x8087192 <betaenv:M1+0x5e>, object 0x7ffddd18, proto 0x811c6c4 BETAENV-~ [ast: 0x0001,0x23ad] <T1BETAENV>

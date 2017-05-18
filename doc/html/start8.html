@@ -1,0 +1,125 @@
+
+<html>
+<!-- Generated with M4 on the date shown at the bottom of this page -->
+<head><title>gbeta: GNU Emacs Integration (continued)</title></head>
+<link rel="stylesheet" type="text/css" href="style/gbeta.css"/>
+<body class="page">
+<table width="100%">
+<tr><td align="right"></td></tr>
+<tr><td align="left"><h1 class="pagetitle">GNU Emacs Integration (continued)</h1></td></tr>
+</table>
+<p><hr></p>
+
+<h3 class="pagetitle">Overview of execution control commands</h3>
+
+<p>
+To execute one single step of a program execution, use the command:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>step</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+and to execute all of the next statement (not stopping at statements
+executed indirectly by method invocation etc.) use the command:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>next</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+To execute until the end of an enclosing block is reached, use: 
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>finish <i>N</i></code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+where <code><i>N</i></code> is an integer specifying the number of
+nesting levels to go out.  This makes it possible to run the
+execution, e.g., until a method invocation terminates, also in the
+case where the pattern declaration specifying that method invocation
+is more than one nesting level further out than the current
+statement.  
+</p>
+
+<p>
+It is possible to let the execution continue in the running mode (not
+single-stepping), using:  
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>go</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+Finally, the commands 
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>restart</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+and 
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>run</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+are used to initiate an execution from the <code>"terminated>"</code>
+state, in the single-stepping respectively running mode.
+</p>
+
+<p>
+Finally, the <a href="javascript:top.display.starttopics.start_next();">next and last</a> section explains a few odds and
+ends.
+</p>
+
+<p><hr></p>
+<address>
+  <strong>Maintainer:</strong>
+  Erik Ernst,
+  <a href="mailto:eernst@cs.au.dk">eernst@cs.au.dk</a>.<br><br>
+  This page was updated on 17-Apr-2011
+<br>
+  URL - http://cs.au.dk/~eernst/gbeta/start8.html
+</address>
+</body>
+</html>
+

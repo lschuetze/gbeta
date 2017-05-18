@@ -1,0 +1,176 @@
+
+<html>
+<!-- Generated with M4 on the date shown at the bottom of this page -->
+<head><title>gbeta: GNU Emacs Integration</title></head>
+<link rel="stylesheet" type="text/css" href="style/gbeta.css"/>
+<body class="page">
+<table width="100%">
+<tr><td align="right"></td></tr>
+<tr><td align="left"><h1 class="pagetitle">GNU Emacs Integration</h1></td></tr>
+</table>
+<p><hr></p>
+
+<p>
+To obtain an environment which has much better scalability for
+programs consisting of many fragment groups (source code files),
+try to run <font class="gbeta">gbeta</font> from GNU Emacs.  This environment offers a
+more "visually" oriented interaction as well.
+</p>
+
+<h3 class="pagetitle">Setting up Emacs</h3>
+
+<p>
+Assuming that you have access to GNU Emacs and already use it, you
+probably have a file <code>~/.emacs</code> which contains your
+personal Emacs initialization code, or possibly some other file
+such as <code>~/.gnu-emacs</code> which is used for GNU Emacs
+initialization.  If you do not have this file, just create it
+with the contents given below, otherwise add these few lines
+somewhere in the file, e.g., at the end.
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>(defvar gbeta-version (getenv "GBETA_VERSION"))
+(if (not gbeta-version) (setq gbeta-version "1.9.11"))
+(defvar gbeta-basedir (getenv "GBETA_BASEDIR"))
+(if (not gbeta-basedir) (setq gbeta-basedir (concat "~/gbeta-" gbeta-version)))
+(setq load-path (append (list (concat gbeta-basedir "/emacs")) load-path))
+(load-library "gud-gbeta")
+(load-library "gbeta-mode")
+(load-library "gbeta-font-lock")
+(setq auto-mode-alist (append '(("\\.gb$" . gbeta-mode)) auto-mode-alist))</pre></td></tr>
+  </table>
+</p>
+
+<p>
+By the way, you can also find this in the file
+<code>gbeta.emacs</code> in the distribution.  For Windows, there
+is a variant of this file called <code>gbeta.msemacs</code>.
+</p>
+
+<h3 class="pagetitle">Starting Emacs, under X..</h3>
+
+<p>
+Initially, go to the <code>start</code> directory, i.e. with a
+standard installation:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>cd $HOME/gbeta-1.9.11/examples/start</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+Now you can start up Emacs and load a source code file:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>emacs beer.gb &amp;</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+It is assumed that you are running under X Windows, such that Emacs is
+able to point out selected portions of the source code by changing a
+visual attribute such as the background color of the text within that
+region.  This is very important for the interaction.  Of course you
+can load the source code file from within an already running instance
+of Emacs if you prefer.
+</p>
+
+<h3 class="pagetitle">Some Emacs terminology</h3>
+
+<p>
+Emacs may have more than one "frame," and each frame may have more
+than one "window."  Since the Emacs terminology collides with the
+general terminology of common GUIs, we'll shortly recapitulate the
+Emacs terms here:  An Emacs <em>frame</em> is the graphical unit which
+is decorated by the window manager (e.g. with a titlebar and a
+border), and which can be moved, resized, iconified, raised, lowered,
+and so on.  An Emacs <em>window</em> is a vertical or horizontal band
+of an Emacs frame, showing a portion of one buffer.  These concepts
+are important because there is normally an execution window showing
+a debugging buffer, and a source code
+window showing one of a number of source code buffers containing the
+program being executed.  The interaction is different when the
+execution window is active and when the source code window is
+active. 
+</p>
+
+<h3 class="pagetitle">Starting the execution</h3>
+
+<p>
+To initiate an interactive execution of the program in the newly
+loaded buffer, ensure that the window showing that buffer is the
+currently active window (click in it).  Then do:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>M-x gbeta</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+This is standard Emacs notation for pressing the Meta-modifier
+(possibly labeled with "Alt", "AltGr" or a small rhombus) along with
+the "x" key and then typing <code>"gbeta[ENTER]"</code>.  This leads
+to a prompt in the bottommost line of the frame (the "minibuffer"):
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>Run gbeta (like this): /.../gbeta beer.gb</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+where <code>...</code> stands for the full path to the gbeta script.
+At this prompt you can edit the command line for invoking
+<font class="gbeta">gbeta</font> to e.g. add various options, but normally accepting the
+default by pressing <code>[ENTER]</code> is appropriate.
+</p>
+
+<p>
+This starts up an interactive <font class="gbeta">gbeta</font> session in one window and
+shows the source code file containing the first statement of the
+program in another window.  The file shown is not necessarily the same
+as the argument given to <font class="gbeta">gbeta</font>, since the
+<a href="javascript:top.topics.activate(3);">fragment system</a> makes it possible to insert
+your program into some larger context. 
+</p>
+
+<p>
+The <a href="javascript:top.display.starttopics.start_next();">next</a> section deals with the interaction within an
+Emacs-based <font class="gbeta">gbeta</font> session.  As a rule of thumb, however, you can just
+start using what you already know from the command line interaction.
+</p>
+
+<p><hr></p>
+<address>
+  <strong>Maintainer:</strong>
+  Erik Ernst,
+  <a href="mailto:eernst@cs.au.dk">eernst@cs.au.dk</a>.<br><br>
+  This page was updated on 17-Apr-2011
+<br>
+  URL - http://cs.au.dk/~eernst/gbeta/start5.html
+</address>
+</body>
+</html>
+

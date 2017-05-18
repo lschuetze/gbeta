@@ -1,0 +1,107 @@
+<html>
+<!-- Generated with M4 on the date shown at the bottom of this page -->
+<head><title></title></head>
+<link rel="stylesheet" type="text/css" href="style/gbeta.css"/>
+<body class="topics">
+
+<table class="pagetitle" align=center border=0 cellpadding=0>
+  <form name="mod_form">
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="mod_activate(1);" 
+              name="mod_mark1">1</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="mod_activate(2);" 
+              name="mod_mark2">2</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="mod_activate(3);" 
+              name="mod_mark3">3</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="mod_activate(4);" 
+              name="mod_mark4">4</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="mod_activate(5);" 
+              name="mod_mark5">5</b>
+  </small></td>
+  </tr>
+    
+
+    <tr><td>&nbsp;</td></tr>
+    <tr>
+      <td align=right colspan=2><small>
+    <b><input type=button 
+              value="Pr"
+              onClick="mod_activate(modselected-1);"></b>
+  </small></td>
+    </tr>
+    <tr>
+      <td align=right colspan=2><small>
+    <b><input type=button 
+              value="Nx"
+              onClick="mod_activate(modselected+1);"></b>
+  </small></td>
+    </tr>
+  </form>
+</table>
+
+<script>
+var modCount = 5;
+var modselected = 1;
+
+var modFile = Array(modCount);
+for (var i=1; i<=modCount; i++) {
+  modFile[i] ="mod" + i;
+}
+
+modRadio = new Array(modCount);
+modRadio[1] = document.mod_form.mod_mark1;
+modRadio[2] = document.mod_form.mod_mark2;
+modRadio[3] = document.mod_form.mod_mark3;
+modRadio[4] = document.mod_form.mod_mark4;
+modRadio[5] = document.mod_form.mod_mark5;
+
+
+modRadio[1].checked = true;
+for (var i=2; i<=modCount; i++) {
+  modRadio[i].checked = false;
+}
+
+function mod_activate(nr) {
+  if (nr<1) nr = 1;
+  if (nr>=modCount) nr=modCount;
+  oldselected = modselected;
+  modselected = nr;
+  modRadio[oldselected].checked = false; // deactivate old selection
+  modRadio[modselected].checked = true; // activate new selection
+  parent.frames[1].location = modFile[modselected] + ".html";
+}
+
+function mod_next() {
+  mod_activate(modselected+1);
+}
+
+function mod_prev() {
+  mod_activate(modselected-1);
+}
+</script>
+
+</body>
+</html>
+

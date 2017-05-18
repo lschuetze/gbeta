@@ -1,0 +1,151 @@
+
+<html>
+<!-- Generated with M4 on the date shown at the bottom of this page -->
+<head><title>gbeta: Compiling <font class="gbeta">gbeta</font>, Creating Variants</title></head>
+<link rel="stylesheet" type="text/css" href="style/gbeta.css"/>
+<body class="page">
+<table width="100%">
+<tr><td align="right"></td></tr>
+<tr><td align="left"><h1 class="pagetitle">Compiling <font class="gbeta">gbeta</font>, Creating Variants</h1></td></tr>
+</table>
+<p><hr></p>
+
+<p>
+If you have <a href="javascript:top.topics.activate(7);">downloaded</a> the soure code, and you have
+access to a <a href="http://daimi.au.dk/~beta/Daimi/index.html" target="_top"
+   >Mjolner BETA System</a> compiler, you can compile <font class="gbeta">gbeta</font>, and
+hence you can perform language design experiments with it.  Since I'd
+enjoy cooperating about such endeavors, don't hesitate to
+<a href="mailto:eernst@cs.au.dk">ask me</a> if you experience
+problems in doing so!
+</p>
+
+<p>
+Note that some special considerations are needed in connection with
+<a href="#windows">compilation on Windows</a> platforms.
+</p>
+
+<p>
+Assuming you have installed <font class="gbeta">gbeta</font> in your home directory, you
+can compile <font class="gbeta">gbeta</font> like this:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>cd $HOME/gbeta-1.9.11/src/main<br>beta -lq gbeta</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+This will take some time.  The binary created by this compilation must
+be moved to the <code>bin</code> directory of your <font class="gbeta">gbeta</font>
+installation, and it must be named in a way which shows what platform
+it belongs to, i.e. you must execute one of the following commands:
+</p>
+
+<p>
+On Linux: 
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>mv gbeta ../../bin/gbeta-1.9.11-i386-linux-elf-bin</code></td></tr>
+    </table>
+  </div>
+</p>
+</p>
+
+<p>
+On Sun: 
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>mv gbeta ../../bin/gbeta-1.9.11-sparc-sun-solaris-bin</code></td></tr>
+    </table>
+  </div>
+</p>
+</p>
+
+
+<p>
+That's it!  Now, assuming that you have adjusted your path to include
+the <font class="gbeta">gbeta</font> executable as explained under <a href="javascript:top.topics.activate(8);">installation</a>,
+you can <a href="javascript:top.topics.activate(1);">try out</a> your new <font class="gbeta">gbeta</font>,
+to see if your installation is basically sound.
+</p>
+
+<a name="windows"><h3 class="pagetitle">Special Considerations on Windows</h3>
+
+<p>
+Note that the Windows version of the source code can <em>not</em>
+co-exist with versions for other platforms since Windows
+does not distinguish between upper and lower case letters in
+filenames, and generated filenames (sitting inside some generated
+files) will consequently have modified case, and then the other
+platforms cannot use those files.  To avoid these problems, just
+install the Windows version in its own directory or on another disk,
+keeping the files entirely separate.  This will typically be
+the case for most installations under Windows, because a Windows disk
+is often not shared with computers running other operating systems.
+</p>
+
+<p>
+Other than that, the approach is similar to the other platforms:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>cd c:\gbeta-1.9.11\src\main<br>beta -lq gbeta</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+and:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>mv gbeta ..\..\bin\gbetabin.exe</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<h3 class="pagetitle">Creating Variants</h3>
+
+<p>
+Of course there could be myriads of different ways to modify
+<font class="gbeta">gbeta</font>.  If you want to experiment with the grammar of the
+language, you need the <code>dogram</code> tool which is delivered
+with the Mjolner BETA System.  This tool will generate grammar tables
+from your customized version of the involved grammars, and
+<font class="gbeta">gbeta</font> cannot use a changed grammar without having these
+generated files.  The script <code>$GBETA_ROOT/bin/dogrammar</code>
+will help you getting this right.
+</p>
+
+<p>
+Changing the grammar of the language is of course potentially a very
+deep change which requires a lot of changes to the static analysis and
+run-time system of <font class="gbeta">gbeta</font>.  Don't hesitate to tell me about your
+adventures if you are doing such things!
+</p>
+
+<p><hr></p>
+<address>
+  <strong>Maintainer:</strong>
+  Erik Ernst,
+  <a href="mailto:eernst@cs.au.dk">eernst@cs.au.dk</a>.<br><br>
+  This page was updated on 17-Apr-2011
+<br>
+  URL - http://cs.au.dk/~eernst/gbeta/compiling.html
+</address>
+</body>
+</html>
+

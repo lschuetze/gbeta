@@ -1,0 +1,125 @@
+
+<html>
+<!-- Generated with M4 on the date shown at the bottom of this page -->
+<head><title>gbeta: Pattern References</title></head>
+<link rel="stylesheet" type="text/css" href="style/gbeta.css"/>
+<body class="page">
+<table width="100%">
+<tr><td align="right"></td></tr>
+<tr><td align="left"><h1 class="pagetitle">Pattern References</h1></td></tr>
+</table>
+<p><hr></p>
+
+<p>
+Some people view patterns reference attributes (syntactically:
+<code>&lt;VariablePattern&gt;</code>) as the undisciplined,
+"goto"ish variant of <a href="javascript:top.display.tuttopics.tut_activate(8);">virtual patterns</a>.
+True enough, if you can use the more disciplined virtual patterns for
+a given purpose, by all means do that.  On the other hand there is
+still a place for real, genuine type variables, and that is just what
+a <code>&lt;VariablePattern&gt;</code> attribute is.
+</p>
+
+<h3 class="pagetitle">What is a pattern reference?</h3>
+
+<p>
+A <code>&lt;VariablePattern&gt;</code> attribute has a state which is
+a pattern reference.  The only difference between the set of patterns
+and the set of pattern references is that <code>NONE</code> is
+included in the set of pattern references.  In other words, it is the
+set of patterns enhanced with a "bottom" element which is used to
+signify the absence of a pattern value. 
+</p>
+
+<p>
+The reason behind the terminology "pattern" and "pattern reference" is
+that this might hint at the analogy with "object" and "object
+reference."  Attributes denoting the "reference" variant may change
+(what it refers to) over time, whereas attributes denoting the short
+variant ("pattern"/"object") are immutable: the state of an object may
+change, but the attribute always denotes the same object.
+</p>
+
+<h3 class="pagetitle">What does it look like?</h3>
+<p>
+The declaration uses the same marker as used in pattern context
+<a href="javascript:top.display.tuttopics.tut_activate(5);">coercion</a>, namely <code>"##"</code>:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>&lt;Names&gt; ":" "##" &lt;AttributeDenotation&gt;</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+for example:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>p: ##object</pre></td></tr>
+  </table>
+</p>
+
+<h3 class="pagetitle">Example 7</h3>
+
+<p>
+A small example of using a pattern reference attribute:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre><small>(* FILE ex7.gb *)
+-- betaenv:descriptor --
+(# 
+   factory:
+     (# settype: (# enter type## #);
+        counter: @integer;
+        type: ##object
+     do counter+1-&gt;counter
+     exit &type[]
+     #);
+   f: @factory;
+   agent: (# do (for 25 repeat '.'-&gt;stdio for); '\n'-&gt;stdio #)
+do 
+   agent##-&gt;f.settype;
+   (for 5 repeat f! for);
+   integer##-&gt;f.settype;
+   (for 5 repeat f! for)
+#)</small></pre></td></tr>
+  </table>
+</p>
+
+<p>
+The <code>"!"</code> suffix is a <em>computed object evaluation</em>.
+The semantics is that the expression in front of it is evaluated.  It
+must deliver one reference to an object (this is checked statically,
+of course).  That object is then executed.  The
+<a href="javascript:top.display.tuttopics.tut_activate(12);"><code>for</code> statement</a> is presented later, and so is
+the explicit object <a href="javascript:top.display.tuttopics.tut_activate(14);">instantiation operator</a>,
+<code>"&amp;"</code>. 
+</p>
+
+<p>
+Now to something completely different, the <a href="javascript:top.display.tuttopics.tut_next();">next</a> section is
+about co-routine sequencing. 
+</p>
+
+<p><hr></p>
+<address>
+  <strong>Maintainer:</strong>
+  Erik Ernst,
+  <a href="mailto:eernst@cs.au.dk">eernst@cs.au.dk</a>.<br><br>
+  This page was updated on 17-Apr-2011
+<br>
+  URL - http://cs.au.dk/~eernst/gbeta/tut9.html
+</address>
+</body>
+</html>
+

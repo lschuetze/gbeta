@@ -1,0 +1,210 @@
+
+<html>
+<!-- Generated with M4 on the date shown at the bottom of this page -->
+<head><title>gbeta: The "new" (&amp;) Operator</title></head>
+<link rel="stylesheet" type="text/css" href="style/gbeta.css"/>
+<body class="page">
+<table width="100%">
+<tr><td align="right"></td></tr>
+<tr><td align="left"><h1 class="pagetitle">The "new" (&amp;) Operator</h1></td></tr>
+</table>
+<p><hr></p>
+
+<p>
+Sometimes it is desirable to explicitly request that a new object is
+instantiated, instead of relying on the <a href="javascript:top.display.tuttopics.tut_activate(4);">coercion</a> mechanism
+to create objects tranparently whenever an object is required and the
+denoted entity is a pattern or a pattern reference.  
+</p>
+
+<p>
+One reason why the transparency might be unwanted is that the
+semantics may depend on having fresh objects.  This is actually mostly
+a matter of convenience and performance, since it is typically because
+the implementation of a pattern depends on the initialization values
+for instances of <a href="javascript:top.display.tuttopics.tut_activate(16);">basic patterns</a>.  E.g. a new
+<code>integer</code> has the value zero, and a new <code>string</code>
+is empty. 
+</p>
+
+<p>
+If some piece of syntax (&lt;Merge&gt;, actually), should denote a
+fresh, newly instantiated object, then just put the "new" operator in
+front of it:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>"&amp;" &lt;Merge&gt;</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+As usual, there is a "<a href="javascript:top.display.tuttopics.tut_activate(11);">concurrent</a> version" creating an
+object which is also a <code>component</code>:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>"&amp;" "|" &lt;Merge&gt;</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+If you are explicitly requesting a new object and the given syntax
+denotes an existing object, there is a compile-time error and the 
+program is rejected.
+</p>
+
+<h3 class="pagetitle">Renewing an object reference</h3>
+
+<p>
+One extension in <font class="gbeta">gbeta</font> compared to traditional BETA is the
+possibility to use the <code>"&amp;"</code> operator with a name which
+denotes an object reference (a "dynamic reference,"
+declared with the <a href="javascript:top.display.tuttopics.tut_activate(3);"><code>"^"</code> marker</a>).  This used to
+be a static semantic error.
+</p>
+
+<p>
+The semantics in <font class="gbeta">gbeta</font> is that a new instance of the declared type is
+created, and the object reference is made to refer to that new
+object.  This is similar to the creation syntax <code>"!!"</code> in
+Eiffel.  It is nothing but syntactic sugar for an explicit object
+instantiation followed by a reference assignment, e.g.
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>
+(#
+   ir: ^integer
+do 
+   (* This: *)
+   <font color="blue"><b>&iref[]</b></font>;
+   (* .. is the same as: *)
+   &integer[]-&gt;iref[];
+
+   (* And this: *)
+   <font color="blue"><b>&iref</b></font>;
+   (* .. is the same as: *)
+   &integer[]-&gt;iref[]; 
+   iref;
+#)</pre></td></tr>
+  </table>
+</p>
+
+<p>
+Whether or not the (newly created) object should be executed is
+determined by the <a href="javascript:top.display.tuttopics.tut_activate(5);"><code>"[]"</code> marker</a>: when this marker is
+present in a statement (or in an evaluation), the denoted entity is
+identified ("a pointer to it is computed") but nothing more happens.
+When it is not present, the <code>do</code>-part is executed, as
+always.  Since the execution of an <a href="javascript:top.display.tuttopics.tut_activate(16);">integer</a> is a no-op,
+nobody would notice in this particular example, though.
+</p>
+
+<h3 class="pagetitle">Caching</h3>
+
+<p>
+One special reason why it might be important to explicitly request a
+fresh object is that, traditionally, BETA allows a compiler to set up
+caching for all objects which are not explicitly requested to be new.
+This only applies to objects created as a result of coercion from
+pattern or pattern reference to object in a statement. 
+This is normally known by the term <EM>inserted item</EM> even
+though that is also the name of a syntactic category which does not
+cover all the cases where caching is allowed.  As an example:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>
+(#
+   p: (# value: @integer do value+1-&gt;value exit value #)
+do 
+   (for 3 repeat <font color="blue"><b>p</b></font>-&gt;putint for)
+#)</pre></td></tr>
+  </table>
+</p>
+
+<p>
+This is should print "123" with caching, since the (same) statement
+mentioning <code>p</code> will use the same instance of the pattern
+denoted by <code>p</code> which was created by coercion.  In <font class="gbeta">gbeta</font>
+(and in the <a href="http://daimi.au.dk/~beta/Daimi/index.html" target="_top"
+   >Mjolner BETA System</a>) it prints "111".  In contrast: 
+</p>
+  
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>
+(#
+   p: (# value: @integer do value+1-&gt;value exit value #)
+do 
+   (for 3 repeat <font color="blue"><b>&amp;p</b></font>-&gt;putint for)
+#)</pre></td></tr>
+  </table>
+</p>
+
+<p>
+This must definitely print "111", even according to <a href="javascript:top.display.tuttopics.tut_activate(1);">"the
+BETA book."</a>
+</p>
+
+<p>
+However, this has never been implemented for any cases where it could
+be detected (in terms of program state), and it is generally frowned
+upon, so it is not (and will not be) implemented to do caching of
+inserted items in <font class="gbeta">gbeta</font>.  Think of it as a non-issue.
+</p>
+
+<p>
+On the other hand, it might very well be interesting to provide this
+functionality explicitly, such that:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>
+(#
+   p: (# value: @integer do value+1-&gt;value exit value #)
+do 
+   (for 3 repeat <font color="blue"><b>@p</b></font>-&gt;putint for)
+#)</pre></td></tr>
+  </table>
+</p>
+
+<p>
+will print "123" thus making caching an explicit choice by the
+programmer.  This has not been implemented, and the grammar does not
+even allow it.
+</p>
+
+<p>
+The <a href="javascript:top.display.tuttopics.tut_next();">next</a> topic is general block structure, which might seem
+somewhat alien to users of many other languages.
+</p>
+
+<p><hr></p>
+<address>
+  <strong>Maintainer:</strong>
+  Erik Ernst,
+  <a href="mailto:eernst@cs.au.dk">eernst@cs.au.dk</a>.<br><br>
+  This page was updated on 17-Apr-2011
+<br>
+  URL - http://cs.au.dk/~eernst/gbeta/tut14.html
+</address>
+</body>
+</html>
+

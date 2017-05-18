@@ -1,0 +1,1347 @@
+.\"
+.\" Manual page for gbeta
+.\"
+.\" Copyright (C) 1997-2011 Erik Ernst, under
+.\" the GNU GENERAL PUBLIC LICENSE
+.\"
+.\" To process, use e.g.:
+.\"    groff -man -Tascii gbeta.1 | less
+.\"    groff -man -Tps gbeta.1 | lpr
+.\"    export MANPATH=`pwd`; ln -s . man1; man gbeta.1
+.\"
+.\" With a newer 'man' program it should be possible 
+.\" to simply do the following:
+.\"    man ./gbeta.1
+.\"
+.TH gbeta 1 "April 2011" "Version 1.9.11"
+.\" --------------------------------------------------"
+.SH NAME
+gbeta \- a generalization of the language BETA
+.\" --------------------------------------------------"
+.SH SYNOPSIS
+.hy 0
+.na
+.B gbeta
+[
+.BI "\-\-" name
+]
+[
+.RB \-abcefghilnoprstvwABCEFGHILNOPRSTVW
+]
+[
+.BI \-c colorscheme
+]
+[
+.BI \-n numcat
+|
+.BI \-N numcat
+]
+[
+.BI \-o obscat
+|
+.BI \-O obscat
+]
+[
+.BI \-t tracecat
+|
+.BI \-T tracecat
+]
+.I filename
+.PP
+where
+.I name
+is one of the long option names ("--foo" style options), as described
+below.
+.\" --------------------------------------------------"
+.SH DESCRIPTION
+.PP
+.B gbeta
+is an implementation of a generalized version of the programming
+language BETA.  The language is documented in the Ph.D. thesis of Erik
+Ernst, on a web site, and in several research papers; see the section
+.B REFERENCES
+below for more information about how to find these.
+.PP
+The language
+.B gbeta
+is generally backward compatible with BETA, i.e., BETA programs will
+run essentially unchanged, with their usual behavior.  However, there
+are some differences between the Mjolner BETA System and
+.B gbeta
+that make it impossible to run Mjolner BETA programs entirely
+unchanged, and the changes must be made in the most basic parts of the
+BETA libraries.  Consequently, if you have experience with BETA
+programming then you can directly reuse it when writing
+.B gbeta
+programs, but it is not straightforward to reuse large amounts of BETA
+source code.
+.PP
+This implementation of
+.B gbeta
+is a research project; it is not at all optimized for good performance
+in terms of time and space, and it still has a number of known
+bugs.  It is primarily useful for writing and running small (5-500
+line)
+.B gbeta
+programs, single-stepping them and looking at the effects
+of executing them by printing the value of variables and executing
+ad-hoc statements etc.  This is a good way to get to know the
+semantics of the language, and you might want to do this because
+.B gbeta
+embodies several innovative aspects.  By the way, please report bugs,
+if you encounter some!  (See the
+.B BUGS
+section below to learn how).
+.PP
+.B gbeta
+parses the source code in the
+.I filename
+specified and whatever files are included directly or indirectly from
+.IR filename ,
+performs a static analysis, generates bytecode (which is
+.B gbeta
+specific), and then executes the program.
+.PP
+The execution may be delayed at startup time by giving option
+.BR \-i ,
+and this makes it possible to single-step the interpretation.  From
+single-stepping mode breakpoints may be defined, and the execution may
+be continued until termination or until a breakpoint is encountered.
+It is also possible to examine the state of the program, to print the
+stack, to look up name declarations, and to execute arbitrary
+.B gbeta
+statements on the fly.  All these tasks and others are requested using
+commands, as described below under
+.BR COMMANDS .
+.PP
+NB: For performance reasons, the options associated with observation
+of the details of the execution process (options
+.BR \-o ,
+.BR \-O ,
+.BR \-t ,
+and
+.BR \-T )
+are not available in the
+distributed binary.  If you want to use these options they can be
+enabled by searching for "(*test-obs" in the source code, changing
+these lines such that the statement following this word is no longer
+commented out, and then recompiling.
+.SH INTERACTION
+.PP
+It is possible to execute
+.B gbeta
+programs by a simple command line like
+.RS
+.nf
+
+gbeta aProgram.gb
+
+.fi
+.RE
+With this command line,
+.B gbeta
+would run the program in the source code file "aProgram.gb", possibly
+including other files as specified by directives in "aProgram.gb" and
+included files.  In this mode there is no interaction with
+.B gbeta
+itself, only (possibly) with the program which is being executed.
+.PP
+If you want to investigate the language more closely by running in a
+mode which is similar (but not identical) to a
+.B gdb
+debugging session, then you may do this in two different ways, namely
+in a simple text terminal, and under GNU Emacs.
+Generally, you would want to run
+.B gbeta
+under Emacs where you can use a mouse to select names, set
+breakpoints, and other things, but it is possible to get started
+without setting up Emacs for this task.  When you are ready to use
+Emacs, check out the web site whose URL is given in the
+.B REFERENCES
+section below.  Note that a snapshot of the web site is included in
+the
+.B gbeta
+distribution, so you may prefer to browse your local copy for better
+response times.
+.PP
+As mentioned, the most basic kind of interaction with
+.B gbeta
+is based on a simple text terminal (e.g. an xterm).  In this mode,
+references to specific parts of the syntax may be given using numbers;
+for instance, a piece of the program may be pretty-printed on the
+terminal with a command like this:
+.RS
+.nf
+
+display 65-91
+
+.fi
+.RE
+The numbers 65 and 91 refer to a specific piece of syntax, namely the
+smallest abstract syntax tree which contains the characters at
+positions 65, 66, ..., and 91.  Numbers like these are shown in various
+situations, preceded by a backquote character.  In particular, these
+numbers may be printed along with the corresponding parts of the
+syntax with every pretty-printing, including after every step in a
+single-stepping process.  For example, the program
+.RS
+.nf
+
+-- betaenv:descriptor --
+(# x: @integer do 1->x #)
+
+.fi
+.RE
+would be pretty-printed as
+.RS
+.nf
+
+(#`65-91
+   x: @integer`72-78
+do 1->x`87-87
+#)
+
+.fi
+.RE
+during console based single stepping when
+.B gbeta
+is started with the options
+.BR -ina .
+This means that the name application "integer" is located at 72-78,
+the name "x" in the assignment "1->x" is located at 87-87, and the
+whole block (which is also the entire program in this case) is
+located at 65-91, as in the above "display" command.  By default only
+blocks are numbered, but in this case we used option
+.B \-n
+with argument
+.B a
+to show the numbers of name applications, too.
+.PP
+Note that Emacs can be made to "understand" these specifications, such
+that a simple double click on a specification like "`foo.gb:65-91"
+will load and highlight the corresponding source code (which would be
+in the file "foo.gb" in this case, at the character position 65-91).
+This is convenient for browsing the code associated with the types of
+expressions and similar things that
+.B gbeta
+can print out.
+.PP
+When the execution stops during single-stepping or after a breakpoint,
+the the nearest enclosing block for the current statement is
+pretty-printed.  The current statement is highlighted
+using the chosen coloring scheme (see option
+.BR \-c ).
+The pretty-printing can be modified
+in various ways.  Firstly, the syntactic categories for which the
+numbers are printed can be adjusted (using option
+.BR \-n " or " \-N ).
+Secondly, a number of specialized pretty-prints can be requested.
+They show selected attributes of the syntax and the associated
+information from static analysis using colors (see the command
+.BR show ).
+.\" --------------------------------------------------"
+.SH OPTIONS
+.PP
+The lower case variant of an option generally activates some feature,
+and the corresponding upper case variant deactivates the same
+feature.  Options may be grouped, so e.g.
+.B \-a \-e \-cc \-v
+and
+.B \-aeccv
+have the same effect.
+.TP
+.B \-a
+When pretty-printing, annotate some syntactic constructs with
+information from the static analysis such as run-time paths.
+.TP
+.B \-A
+Cancel the effect of
+.BR \-a .
+.TP
+.BI \-c colorscheme
+Choose the coloring scheme
+.I colorscheme
+for subsequent pretty-printing;
+.I colorscheme
+must be a single character from the following list:
+.RS
+.TP
+.B a
+ANSI escape sequences, as supported by most
+.B xterm
+programs under UN*X, and by ANSI.SYS under MSD*S.
+(Mnemonic: "a" for "ANSI").
+.TP
+.B c
+same as
+.BR a .
+(Mnemonic: "c" for "Color").
+.TP
+.B m
+Use a monochrome coloring scheme.  This is also based on ANSI escape
+sequences, but it only uses underline and bold attributes, so it
+is visible even on displays without color support.  This is the
+default.  (Mnemonic: "m" for "Monochrome").
+.TP
+.B n
+Do not use any colors, instead mark selected parts of the syntax using
+the strings ">>>" and "<<<".  This is something to try only if
+everything else fails.  (Mnemonic: "n" for "No text attributes").
+.RE
+.TP
+.B \-C
+Reset the coloring scheme for pretty-printing to the default
+value (monochrome).
+.TP
+.B \-e
+Pretty-print the program early in the interpretation process, namely
+even before the static analysis.  This is mostly useful when debugging
+the interpreter, e.g., if it crashes during static analysis.
+.TP
+.B \-E
+Cancel the effect of
+.BR \-e .
+.TP
+.BI \-f flag
+Set the code generation flag
+.IR flag ;
+the
+.I flag
+must be a single character from the following list:
+.RS
+.TP
+.B b
+Enable the generation of PUSH/INSTALL-ptn_".." and
+PUSH/INSTALL-obj_".." instructions, i.e., instructions specially
+directed towards the handling of predefined (basic) patterns.
+.TP
+.B i
+Enable the generation of INSTALL-static-ptn instructions.
+.TP
+.B l
+Enable lazy attribute initialization (not yet implemented - no effect).
+.TP
+.B n
+Enable the generation of NEW,_static-ptn->obj and
+NEW,_static-ptn->tmp instructions.
+.TP
+.B o
+Enable the generation of INSTALL-static-obj instructions.
+.TP
+.B p
+Enable the generation of PUSH-static-ptn instructions.
+.TP
+.B q
+Enable the generation of INSTALL-static-qua-ptn and
+INSTALL-static-qua-obj instructions.
+.TP
+.B *
+Enable all of the above.
+.RE
+.TP
+.B \-g
+Generate and save bytecode, then exit.  The bytecode is saved to a
+file with the name
+.IR filename ".gbc"
+where
+.IR filename ".gb"
+is the filename argument given to
+.BR gbeta .
+This is useful in connection with a stand-alone virtual machine.
+Such virtual machines are being developed, but they are not yet ready
+to be released.
+.TP
+.B \-h
+Print a help/usage message.
+.TP
+.B \-i
+Make the interpretation interactive, i.e., stop the execution before
+the first statement, thus allowing the user to single-step the
+program, run until the next breakpoint, etc.  Note that pressing
+Ctrl-C in interactive mode will insert a temporary breakpoint into the
+program at the next statement boundary, i.e., it will stop the
+execution "immediately".
+.TP
+.B \-I
+Make the interpretation non-interactive, i.e., just proceed and
+execute the program.  Note that pressing Ctrl-C in this mode will stop
+the execution of
+.B gbeta
+itself.  If neither 
+.B \-i
+nor
+.B \-I
+is given, this mode is chosen by default.
+.TP
+.B \-l
+Perform lazy analysis, i.e., execute static analysis only on demand
+(when actually executing the code) and only just enough to determine
+the correct semantics.  This means that static name binding takes
+place, but e.g. the number of arguments in a method invocation and
+their types are not checked by static analysis.  This will drastically
+reduce startup times for programs of a few thousand lines and up, so
+it is a reasonable choice for a program which has already been
+type-checked sucessfully.  Of course, a stand-alone virtual machine
+will in the future provide a much better solution to this startup
+delay problem.
+.TP
+.B \-L
+Cancel the effect of
+.BR \-l .
+.TP
+.BI \-n numcat
+When pretty-printing, annotate the expressions of the syntactical
+category
+.I numcat
+with numbers which identify them unambiguously.  The available
+categories are
+.RS
+.TP
+.B A
+Attribute denotations
+.TP
+.B E
+Expressions, also sub-expressions
+.TP
+.B a
+name Applications
+.TP
+.B d
+name Declarations
+.TP
+.B e
+top-level Expressions
+.TP
+.B i
+Imperatives (known as "statements" in many languages)
+.TP
+.B m
+Main parts
+.TP
+.B r
+Run-time path starting points
+.TP
+.B w
+Walking destination for run-time steps
+.TP
+.B *
+everything
+.RE
+.TP
+.BI \-N numcat
+Cancel the effect of
+.BI \-n numcat .
+.TP
+.BI \-o obscat
+.BR "(NB: this option is not enabled in the distributed binary)" .
+During static analysis, print information about each performance of an
+action in the observational category
+.IB obscat .
+This group of options is mostly useful for development and debugging
+of the interpreter itself, but it might shed some light on the
+analysis process if you use them sparingly \- the amount of
+information can easily become overwhelming, and it is not always so
+easy to understand the meaning of the messages printed.
+The available observational categories are
+.RS
+.TP
+.B B
+Bind names of attribute denotation (indents)
+.TP
+.B C
+Coerce static types
+.TP
+.B D
+insert smth. into Database of static information
+.TP
+.B E
+get Enter/Exit-type of evaluation
+.TP
+.B G
+Get static substance of remote
+.TP
+.B I
+Instantiate from static type to static substance
+.TP
+.B L
+Look up static context
+.TP
+.B N
+Normalize run-time path
+.TP
+.B O
+create compOsite static slice (indents)
+.TP
+.B P
+do two run-time Paths lead to the same entity?
+.TP
+.B S
+compute static Substance
+.TP
+.B T
+static Transient compute/compare
+.TP
+.B W
+Walk: perform static analysis of run-time step
+.TP
+.B b
+Binding names of attribute denotation
+.TP
+.B c
+the overall Checking of an AST node (indents)
+.TP
+.B e
+get Enclosing static context
+.TP
+.B f
+setting Focus of static context
+.TP
+.B g
+Getting type of object descriptor
+.TP
+.B i
+Initial context of a scope node
+.TP
+.B l
+Local static type
+.TP
+.B n
+Normalize run-time path (indents)
+.TP
+.B s
+computing Static type
+.TP
+.B v
+Virtual declaration static analysis
+.TP
+.B w
+Walk: perform run-time path (static or dynamic)
+.TP
+.B *
+everything
+.RE
+.TP
+.BI \-O obscat
+.BR "(NB: This option is not enabled in the distributed binary)" .
+Cancel the effect of
+.B \-o
+.IR obscat .
+.TP
+.B \-p
+When single-stepping, print a specially formatted string that
+specifies the current position in the source code (as opposed to the
+default action which is to pretty-print the currently executing
+piece of code).  This specially formatted string may be intercepted by
+GNU Emacs, such that the current position in the source code can be
+high-lighted by Emacs.  This is recommended when running
+.B gbeta
+under Emacs, and the Emacs setup which is described at the web site
+(see
+.BR REFERENCES )
+will automatically activate it.
+.TP
+.B \-P
+Cancel the effect of
+.BR \-p .
+.TP
+.B \-r
+Enable measurement of the time that is spent running the program.
+With this option, code generation is performed eagerly (otherwise it
+is always performed in a lazy manner) and the time measurement only
+starts after the static analysis and code generation has been
+completed.  Hence, the execution of the program but not the
+compilation is being measured.
+.TP
+.B \-R
+Cancel the effect of
+.BR \-r .
+.TP
+.B \-s
+Generate and save static analysis information, then exit.  The static
+information is saved to a file with the name
+.IR filename ".sti"
+where
+.IR filename ".gb"
+is the filename argument given to
+.BR gbeta .
+This has been used in connection with a stand-alone tool implemented
+in Emacs that would use static information to support browsing of
+.BR gbeta
+source code.
+.TP
+.BI \-t tracecat
+.BR "(NB: This option is not enabled in the distributed binary)" .
+During execution, print reports of every occurrence of an action
+belonging to the tracing category
+.IB tracecat .
+This group of options is perhaps mostly interesting when developing or
+debugging the interpreter itself, but a judicious usage of these
+options may also be a good aid when investigating the
+dynamic semantics of the language.  As an example, when giving option
+.B \-ti
+and executing non-interactively (e.g. using the command
+.BR go ),
+each imperative will be printed just before it is executed.  The
+available tracing categories are
+.RS
+.TP
+.B E
+Execution of any entity (indents)
+.TP
+.B G
+object Graph (daVinci format dump to file)
+.TP
+.B I
+Instantiation from pattern to object (indents)
+.TP
+.B O
+execute Object
+.TP
+.B S
+object Specification obtain/execute
+.TP
+.B W
+Walk: perform dynamic step
+.TP
+.B X
+eXploit during dyn. specialization (indents)
+.TP
+.B e
+Enter/Exit value evaluation setup
+.TP
+.B f
+Fill in new object attributes (indents)
+.TP
+.B i
+current Imperative
+.TP
+.B l
+Lookup attribute denotation
+.TP
+.B m
+pattern Merging (indents)
+.TP
+.B n
+eNter iterator execution (indents)
+.TP
+.B s
+current object Slice
+.TP
+.B t
+enter/exit iterator Transient value handling
+.TP
+.B u
+stack Unwinding (leave/restart/labelledImp)
+.TP
+.B v
+Virtual pattern instantiation (indents)
+.TP
+.B x
+eXit iterator execution (indents)
+.TP
+.B *
+everything
+.RE
+.TP
+.BI \-T tracecat
+.BR "(NB: This option is not enabled in the distributed binary)" .
+Cancel the effect of
+.B \-t
+.BR tracecat .
+.TP
+.B \-v
+Be verbose, especially by printing a startup message.  Since this
+startup message also contains the version number of this
+.BR gbeta ,
+this option may be understood as "verbose" or "version" ad libitum.
+.TP
+.B \-V
+Cancel the effect of
+.BR \-v .
+.TP
+.B \-w
+Print warnings during static analysis.
+.TP
+.B \-W
+Suppress the printing of warnings during static analysis.  Note that a
+program that produces warnings about potential type unsafe assignment
+or method passing constructs (i.e., "qualification" warnings; see option
+.BR \-x 
+about how they can arise) is not a safe program, so it is not
+recommended to write or use such programs.
+.TP
+.B \-x
+Activate a "relaxed" version of type checking.  This is identical with
+the normal type checking except that assignment and method argument
+passing constructs which are not type safe are accepted iff they can be
+made safe by inserting an implicit cast; each such case is marked by a
+warning (known as a "qualification" warning).  Note that name binding 
+is unchanged, so an expression like x.y will still be rejected with an 
+error at compile time if it is not statically guaranteed that x
+contains an attribute named y.  In other words, relaxed type
+checking is exactly equivalent to the insertion of a cast operation
+for every warning about possible type unsafe assignments/arguments.  
+This relaxed style of type checking has been used in BETA since the
+late 1970'ies, but it has given rise to the impression that BETA is
+not type safe, so
+.B gbeta
+uses strict type checking by default.  In 
+.B gbeta ,
+you can use "(when .. when)" to obtain the effect of dynamic casts.
+This will transform potential run-time errors into the possibility of
+selecting the "else" part of a "when" statement, thereby making the
+program safe and the error handling explicit.  Note that a
+.B gbeta
+program with relaxed type checking that causes a qualification warning
+is similar to a Java(TM) program with a dynamic cast: Both may fail at
+run-time, and the rest of the program remains safe even though there
+is a "dangerous spot" exactly when the warning-statement/cast is
+executed.
+.TP
+.B \-X
+Cancel the effect of
+.BR \-x .
+.PP
+Note that each of the options also has a long form, in the "--foo"
+style that is commonly supported by GNU utilities.  The long form
+corresponding to each short form is printed when the command
+.RS
+.nf
+
+gbeta -h
+
+.fi
+.RE
+is executed.  The long form is recommended in scripts and definitions
+of shell aliases because of the improved readability.  You may give
+any prefix of a long form, such as the abbreviation "--lazy" for the
+option "--lazy-analysis".  However, an abbreviated form may not be
+unique ("--save" is an example), and in that case the alphabetically
+lowest ordered ordinary option is chosen ("-g"/"--save-bytecode" and not
+"-s"/"--save-static-info", because "g" is earlier than "s" in the
+alphabet).  Long form options may be negated by prepending "no-" to
+the name, e.g., "--no-lazy-analysis" is the opposite of
+"--lazy-analysis".
+.\" --------------------------------------------------"
+.SH COMMANDS
+.PP
+During interactive interpretation, which is basically like the kind of
+interaction available in a source level debugger like
+.BR gdb(1) ,
+you may control the execution by means of a number of commands.
+However, the command language is not identical to the command language
+used by
+.BR gdb .
+You may give any prefix of a command name, and it will be recognized
+as the first matching command name (in some obscure, internal list of
+commands).  There is no warning if an abbreviation matches more than
+one command, so you'll just have to try again if you gave an ambiguous
+command and the effect was a surprise.  To avoid surprises, give the
+abbreviation you intend to use as the argument to the "help" command.
+E.g. "help s" will tell you what command you will get with the
+abbreviation "s".  To avoid ambiguity entirely you can give the full
+name of every command, but some abbreviated versions will probably
+quickly establish themselves as useful.
+.PP
+On most platforms, the GNU
+readline library is used for input.  This means that you can use arrow
+keys to go back into the line being edited, you can delete a word and
+the whole line, you can undo as many editing operations as you wish,
+and much, much more.  On some platforms, however, compilation with
+readline failed, so here the interpreter uses the basic Mjolner
+BETA "getline" operation.  This means that you will have to type
+correctly since even backspace may end up in the string.
+.PP
+The command language generally has a simple
+.IR "<CommandName> " { "<arg>" }
+syntax, i.e., a command expression consists of the name of a command
+followed by zero or more arguments.  The commands may be divided into
+groups as follows:
+.PP
+The most important commands for getting started are
+.BR help " and " quit .
+Printing parts of the program, possibly color-coded, and showing other
+aspects like the list of breakpoints can be done with the commands
+.BR display " and " show .
+.PP
+The commands for managing the execution at the level of threads are
+.BR run ", " restart ", " go ", " finish ", " step ", " next ", and " kill .
+Breakpoints may be managed with the commands
+.BR break ", " abreak ", " tbreak ", " tabreak ", and " unbreak .
+The commands
+.BR skip " and " unskip
+are a kind of "inverse breakpoints" in that they specify that
+.B gbeta
+should execute certain pieces of code in one go, even when we are
+single-stepping.
+.PP
+Information about the generated bytecode and its execution state may
+be acquired with
+.BR bytecode " and " bvm ,
+and ad-hoc statements may be parsed, checked, and executed
+with the command
+.BR do .
+.PP
+Information about the dynamic properties of entities such as objects
+and patterns may be displayed using the commands
+.BR primaryobject ", " currentslice ", " print ", " stack ", and " topofstack .
+.PP
+Information about the static properties of entities may be shown with
+the commands
+.BR info ", " evalinfo ", and " assigninfo ;
+these commands take a piece of concrete syntax as their argument,
+e.g. "info x".  An alternative set of commands for retrieving static
+information is
+.BR type ", " substance ", " entertype ", " exittype ", and " declaration ;
+these commands take a position specification as argument, e.g., "type
+124-128".
+The first set of commands will look up the static information about
+the given syntactic expression starting at the currently executing
+statement, so it will answer questions like "what do we know
+statically about x at this point?"; the second group of commands may
+be used to answer questions like "what do we know statically about
+this name?", whether or not we are executing a statement in that part
+of the source code.  The first group is convenient for investigating
+the environment during single-stepping, the second group is better for
+arbitrary browsing in programs, and it is also better for mouse based
+selection of expressions when running under Emacs (with a mouse you
+just point and click at the name, so you don't have to worry about the
+actual numbers etc. used to specify the position).
+.PP
+Finally the command
+.B option
+may be used to change the command line option settings during an
+interactive setting, e.g., if you want to change the color scheme used
+in pretty-printing.
+.PP
+Here is an alphabetically ordered listing of the available commands
+together with a short explanation:
+.\"------------------------------------------------------------"
+.TP
+.B (an empty string)
+execute the default command; in most cases, the default command is the
+previous command, but commands like 
+.B print
+do not set the default command, so single-stepping may be continued
+after printing the value of an expression simply by pressing ENTER
+before and after giving the
+.B print
+command
+.\"------------------------------"
+.TP
+.BI abreak " [[group:]charpos]"
+similar to
+.BR break ,
+but sets the breakpoint after the specified imperative, not before
+.\"------------------------------"
+.TP
+.BI assigninfo " <Expression>"
+look up and print the static information about the value accepted when
+assigning to the given
+.IR <Expression> ;
+this can be used to investigate the type of names and expressions,
+including the types of arguments expected by a method
+.\"------------------------------"
+.TP
+.BI break " [[group:]charpos]"
+insert a breakpoint at the syntax at the given character
+position (an integer offset into the file)
+.IR charpos ;
+if the optional
+.I group
+(a filename) is specified, search in that fragment group, otherwise
+search in the current fragment group
+.\"------------------------------"
+.TP
+.B bvm
+print the state of the virtual machine, including the various
+evaluation stacks and the stack of temporary objects; the virtual
+machine is named after BETA ("bvm" for "BETA virtual machine") because
+.B gbeta
+was initially considered to be an open source reimplementation of BETA
+.\"------------------------------"
+.TP
+.BI bytecode " [[group:]charpos]"
+print the bytecode instructions concerning the syntax in the fragment
+group
+.I group
+containing the character at position
+.I charpos
+of the source code file.  If no position is given, the current
+imperative is chosen.  Note that bytecode is generated on demand, so
+an imperative which has not yet been executed will be compiled first.
+.\"------------------------------"
+.TP
+.B currentslice
+Print the immediate execution context of the currently executing
+imperative; this is not an object but a part-object, once known 
+as a "slice"
+.\"------------------------------"
+.TP
+.BI declaration " [group:]charpos"
+display the declaration associated with the name application at
+the specified position; the meaning of
+.I charpos
+and
+.I group
+are the same as in the command
+.B break
+.\"------------------------------"
+.TP
+.BI display " [[context] [group:]charpos[-charpos]]"
+Running in a console:
+Display a pretty-printing of the source code being executed using
+current adornments such as coloring the current imperative; with one
+or two numeric arguments, prettyprint the source code of the AST node
+whose syntax most closely surrounds the given 
+.I charpos
+(or 
+.I charpos-charpos
+range); if 
+.I group
+is given, the AST node is searched in the fragment group
+.IR group ;
+if the modifier 
+.I context
+is present, the syntax that encloses that AST node is shown.
+Running under Emacs (with option
+.BR \-p "):"
+Without arguments, display and highlight the source code being
+executed, in the source code window (usually the other half of the
+current frame); with one or two numeric arguments, display the source
+code of the AST node whose syntax most closely surrounds the given
+.I charpos
+(or 
+.I charpos-charpos
+range); this AST node is searched in the current fragment group or, if
+specified, in the fragment group 
+.IR group ;
+the 
+.I context
+modifier has no effect in Emacs-mode
+.\"------------------------------"
+.TP
+.BI do " <Imperative>"
+parse, check, compile, and execute the given
+.I <Imperative>
+.\"------------------------------"
+.TP
+.BI entertype " [group:]charpos"
+print the type of the value accepted when assiging to the
+entity denoted by the syntax at the specified position; the meaning of
+.I charpos
+and
+.I group
+are the same as in the command
+.B break
+.\"------------------------------"
+.TP
+.BI evalinfo " <Expression>"
+look up and print the static information about the value obtained by
+evaluation of the given
+.IR <Expression> ;
+this can be used to investigate the type of expressions, including the
+types of returned values from a method invocation
+.\"------------------------------"
+.TP
+.BI exittype " [group:]charpos"
+print the type of the value delivered when evaluating the
+entity denoted by the syntax at the specified position; the meaning of
+.I charpos
+and
+.I group
+are the same as in the command
+.B break
+.\"------------------------------"
+.TP
+.BR finish " [number]"
+execute until the end of the current block (e.g., the current DoPart);
+with the optional
+.I number
+argument, execute until the end of the block that many levels out
+.\"------------------------------"
+.TP
+.B go
+continue execution of the program until termination or until a
+breakpoint is reached
+.\"------------------------------"
+.TP
+.BI help " [commandprefix]"
+print a list of available commands along with a short explanation of
+their effect; if the optional argument is given, the set of command
+names are searched for a name which has this argument as a prefix (so
+the argument "he" would match the command name "help"), and the
+specific help for the matched command is printed
+.\"------------------------------"
+.TP
+.BI info " <AttributeDenotation>"
+Look up and print the static information about the given
+.IR <AttributeDenotation> ,
+which may be a simple name (check the grammar to see what else it may
+be); this can be used to investigate the type of references and
+similar compile-time information
+.\"------------------------------"
+.TP
+.BR kill " [" all ]
+Kill the current thread; with the optional
+.B all
+argument, kill all the currently running threads, thus bringing the
+program execution to a terminated state
+.\"------------------------------"
+.TP
+.B next
+execute until the end of the next imperative; this may execute any
+number of other imperatives as part of the current imperative
+(this is sometimes called "step over")
+.\"------------------------------"
+.TP
+.BI "option \-" " letters"
+has the same effect as giving the same
+.I letters
+in an option on the command line; e.g., the (abbreviated)
+command "op -cc" during an interactive session has the same effect as
+giving the option "-cc" on the command line which started the
+.B gbeta
+session
+.\"------------------------------"
+.TP
+.B primaryobject
+print the primary object for this program execution, i.e., the
+outermost object in the block structure which was the first object to
+be created in this program execution, and which is ultimately the
+enclosing object for every other object
+.\"------------------------------"
+.TP
+.BI print " <AttributeDenotation>"
+look up and print the run-time entity denoted by the given
+.IR <AttributeDenotation> ,
+(that could be a simple name, see the grammar for a more precise
+explanation of attribute denotations); this can be used to
+investigate the state of the running program, such as the value of
+attributes (instance variables) of objects
+.\"------------------------------"
+.TP
+.B quit
+terminate the
+.B gbeta
+session; if a program is currently running a confirmation will be
+requested that the session should indeed be terminated now
+.\"------------------------------"
+.TP
+.B restart
+from a state where the program has terminated, start executing the
+program again, in single-stepping mode
+.\"------------------------------"
+.TP
+.B run
+from a state where the program has terminated, start executing the
+program (running, not single-stepping)
+.\"------------------------------"
+.TP
+.BI show " something"
+print out information about properties of the program or of the
+interpretation process; the possible values for
+.I something
+are:
+.RS
+.TP
+.B breakpoints
+print a list of all breakpoints
+.TP
+.B deref
+display the program, using colors or other text
+attributes to visualize for each name application whether it directly
+denotes the object or pattern in question or it denotes a reference
+(pointer) to it
+.TP
+.B growable
+display the program, using colors to show whether the type of each
+entity is a compile time constant or it is "growable" (i.e., a pattern
+which is only known to be a subpattern of a compile time constant)
+.TP
+.B kind
+display the program, using colors or other text attributes to
+visualize the different kinds of program entities: patterns, objects,
+references to objects and to patterns, etc.
+.TP
+.B repeat
+display the program, using colors or other text attributes to
+visualize for each name application whether it denotes a repeated or a
+single entity (a repeated entity corresponds largely to an "array" in
+other languages)
+.TP
+.B skip
+print a list of pieces of syntax where single-stepping is
+suspended
+.RE
+.\"------------------------------"
+.TP
+.BI skip " [[group:]charpos]"
+register the nearest main part that encloses the specified piece of
+syntax to have single-stepping suspended; the meaning of
+.I group
+and
+.I charpos
+is the same as with
+.BR break 
+except that a "*" may be used to select all main parts in the given
+.IR group ;
+the effect is that execution of the program even in single-stepping
+mode will continue without interaction whenever a piece of code which
+is at top level inside that main part is being executed; this is
+useful because it relieves the programmer from single-stepping through
+pieces of code that may be known to be uninteresting for a given task
+.\"------------------------------"
+.TP
+.B stack
+print the objects on the run-time stack of the currently executing
+thread
+.\"------------------------------"
+.TP
+.B step
+execute until the next imperative is reached (this is sometimes 
+known as "step into")
+.\"------------------------------"
+.TP
+.BI substance " [group:]charpos"
+retrieve the statically known "substance" of the syntax node at
+the specified position; the meaning of
+.I charpos
+and
+.I group
+are the same as in the command
+.BR break ;
+the substance information includes the type information and also
+specifies exactly how to find the specified entity (e.g. pattern or
+object) in the run-time universe (this is necessary for the correct
+analysis of virtual attributes and entities related to virtuals)
+.\"------------------------------"
+.TP
+.BI tabreak " [group:]charpos"
+similar to
+.BI break ,
+but makes the breakpoint temporary (so it will be deleted the first
+time it causes a break) and puts it after the specified imperative
+.\"------------------------------"
+.TP
+.BI tbreak " [group:]charpos"
+similar to
+.BR break ,
+but makes the breakpoint temporary (so it will be deleted the first
+time it causes a break)
+.\"------------------------------"
+.TP
+.B topofstack
+print the topmost object on the current run-time stack
+.\"------------------------------"
+.TP
+.BI type " [group:]charpos"
+print the type of the syntax node at the specified position; the
+meaning of
+.I charpos
+and
+.I group
+are the same as in the command
+.BR break ;
+note that the type of a declaration may be different for different
+points of view (this is a consequence of the semantics of virtual
+attributes), so it may make a difference whether you ask for the type
+of "x" in one place or another, even if it is "the same x"
+.\"------------------------------"
+.TP
+.BI unbreak " [group:]charpos"
+remove the breakpoint at the given imperative; the meaning of
+.I group
+and
+.I charpos
+is the same as with
+.B break
+.\"------------------------------"
+.TP
+.BI unskip " [group:]charpos"
+remove the
+.B skip
+mark at the given main part; the meaning of
+.I group
+and
+.I charpos
+is the same as with
+.BR skip ;
+it may be useful to execute
+.B "show skip"
+to discover what marks are present in the system
+.\"------------------------------"
+.\" .I (a number)"
+.\" print various information from static analysis about the syntax node"
+.\" associated with the given"
+.\" .I number"
+.\" --------------------------------------------------"
+.SH ENVIRONMENT
+.TP
+.SM
+.B GBETA_OBSERVE
+specify observation categories; works like giving an
+.BI \-o obscat
+command line option for each character
+.I obscat
+in the value of
+.BR GBETA_OBSERVE ;
+note that observation is not enabled in the distributed binary
+.TP
+.SM
+.B GBETA_DONTOBSERVE
+specify non-observation categories; works like giving an
+.BI \-O obscat
+command line option for each character
+.I obscat
+in the value of
+.BR GBETA_DONTOBSERVE ;
+note that observation is not enabled in the distributed binary
+.TP
+.SM
+.B GBETA_TRACE
+specify tracing categories; works like giving an
+.BI \-t tracecat
+command line option for each character
+.I tracecat
+in the value of
+.BR GBETA_TRACE ;
+note that tracing is not enabled in the distributed binary
+.TP
+.SM
+.B GBETA_DONTTRACE
+specify non-tracing categories; works like giving an
+.BI \-T tracecat
+command line option for each character
+.I tracecat
+in the value of
+.BR GBETA_DONTTRACE ;
+note that tracing is not enabled in the distributed binary
+.TP
+.SM
+.B GBETA_SHOWNUMBER
+specify numbering categories for pretty-printing; works like giving an
+.BI \-n numcat
+command line option for each character
+.I numcat
+in the value of
+.BR GBETA_SHOWNUMBER .
+.TP
+.SM
+.B GBETA_DONTSHOWNUMBER
+specify non-numbering categories for pretty-printing; works like
+giving an
+.BI \-N numcat
+command line option for each character
+.I numcat
+in the value of
+.BR GBETA_DONTSHOWNUMBER .
+.TP
+.SM
+.B GBETA_PRINTBYTECODEORIGIN
+if this variable is set to a non-empty value then the source code
+position in the implementation of
+.B gbeta
+where each bytecode was generated will be printed whenever bytecode
+instructions are printed; this is useful when debugging the code
+generation phase in the
+.B gbeta
+implementation itself
+.\" --------------------------------------------------"
+.SH FILES
+.PP
+Used for parsing, with paths relative to the installation:
+.RS
+.nf
+
+grammars/metagram/metagrammar-meta.gram
+grammars/gbeta/gbeta-meta.gram
+grammars/beta/beta-meta.gram
+.fi
+.RE
+
+In addition to these files, and in the same three directories, several
+other generated files are necessary in order to perform parsing.  All
+these generated files are delivered in the right directories in the
+distribution, so normally you would not have to bother with them.
+However, if you need to regenerate them (if you want to change the
+grammars, for instance) then you should use the script "bin/dogrammar"
+from the directory "grammars", which will recreate all the generated
+files using various tools from the Mjolner BETA System.
+.\" --------------------------------------------------"
+.SH REFERENCES
+.PP
+A web site describing the language
+.B gbeta
+in more detail:
+.RS
+.nf
+
+http://cs.au.dk/~eernst/gbeta/
+
+.fi
+.RE
+Even more detailed information can be found in my Ph.D. thesis (which
+may also be downloaded from the above web site):
+.RS
+.nf
+
+@PhdThesis{EEThesis,
+  author =       "Erik Ernst",
+  title =        "gbeta -- a Language with Virtual
+                  Attributes, Block Structure, and
+                  Propagating, Dynamic Inheritance",
+  school =       "University of Aarhus,
+                  Dept. of Computer Science",
+  year =         "1999",
+}
+
+.fi
+.RE
+Moreover, several research papers have been published about the
+language; check http://cs.au.dk/~eernst/ for more details.
+Here is a web site describing standard BETA in more detail:
+.RS
+.nf
+
+http://cs.au.dk/~beta/
+
+.fi
+.RE
+.\" --------------------------------------------------"
+.SH AUTHOR
+.PP
+Erik Ernst <eernst@cs.au.dk>
+.\" --------------------------------------------------"
+.SH DIAGNOSTICS
+.PP
+Divided into parsing errors, static semantic errors, run-time errors,
+and internal errors.  An internal error is marked with the
+text "BUG, please report" since this kind of error is always a sign of
+an internal inconsistency.  The other kinds of diagnostics are
+hopefully self-explanatory.
+.\" --------------------------------------------------"
+.SH BUGS AND INCONVENIENCES
+.PP
+Please check the 
+.B gbeta
+web site at
+.RS
+.nf
+
+http://cs.au.dk/~eernst/gbeta/
+
+.fi
+.RE
+for a list of known bugs and inconveniences.
+If you encounter new bugs, please report them to eernst@cs.au.dk.
+If possible, include a complete, self-contained example that
+will allow the bug to be reproduced, describe exactly how to reproduce
+it, and say which version of
+.B gbeta
+you are using.
+.PP
+
+.\" --------------------------------------------------"
+.\" END-OF-MANPAGE"
+.\" --------------------------------------------------"

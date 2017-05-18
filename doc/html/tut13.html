@@ -1,0 +1,249 @@
+
+<html>
+<!-- Generated with M4 on the date shown at the bottom of this page -->
+<head><title>gbeta: Repetitions</title></head>
+<link rel="stylesheet" type="text/css" href="style/gbeta.css"/>
+<body class="page">
+<table width="100%">
+<tr><td align="right"></td></tr>
+<tr><td align="left"><h1 class="pagetitle">Repetitions</h1></td></tr>
+</table>
+<p><hr></p>
+
+<p>
+Repetitions are really not that interesting.  They are just the
+concept in BETA which corresponds to arrays in other languages,
+defining several entities in one go in stead of just one.  
+</p>
+
+<p>
+Nevertheless, repetitions are one of the very few topics where <font class="gbeta">gbeta</font>
+has been designed to do something which is <em>not</em> backward
+compatible with BETA.  This is because I thought the semantics was
+messy in BETA.. 
+</p>
+
+<p>
+The basic idea is that a repetition implies "repeated."  Whatever you
+can do with a single item of any kind should have a "repeated"
+parallel when applied to a repetition.  Assignments can be described
+in the following way.  Assume the following declarations: 
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>
+(#
+   rep1,rep2: [expr] @ptn;
+   refrep: [expr] ^ptn
+do 
+   ...
+#)</pre></td></tr>
+  </table>
+</p>
+
+<p>
+Firstly, the repetition being assigned to (on the right hand side of
+<code>"-&gt;"</code>) gets adjusted to have the same length as the one
+being evaluated.  Secondly, assignments distribute over the elements,
+i.e. assigning one repetition to another means assigning the first
+element of the repetition to the first element of the second, then the
+second etc.  Thirdly, the <a href="javascript:top.display.tuttopics.tut_activate(5);">object reference marker</a>
+<code>"[]"</code> distributes over the elements.  Summing up we get
+the following equivalences: 
+</p>
+
+<p>
+The statement:
+</p>
+
+
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>rep1->rep2</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+works like: 
+</p>
+
+
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>(* adjust size of 'rep2', then: *)<BR>
+             (for i:rep1.length repeat rep1[i]-&gt;rep2[i] for)</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+The statement:
+</p>
+
+
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>rep1[]->rep2</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+works like: 
+</p>
+
+
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>(* adjust size of 'rep2', then: *)<BR>
+             (for i:rep1.length repeat rep1[i][]-&gt;rep2[i] for)</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+The statement:
+</p>
+
+
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>rep1->rep2[]</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+works like: 
+</p>
+
+
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>(* adjust size of 'rep2', then: *)<BR>
+             (for i:rep1.length repeat rep1[i]-&gt;rep2[i][] for)</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+Finally, the statement:
+</p>
+
+
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>rep1[]->rep2[]</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+works like: 
+</p>
+
+
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>(* adjust size of 'rep2', then: *)<BR>
+             (for i:rep1.length repeat rep1[i][]-&gt;rep2[i][] for)</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+It is possible to extract a subrange of a repetition using a
+<em>repetition slice</em>, 
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>&lt;AttributeDenotation&gt; "["  &lt;Evaluation&gt; ":" &lt;Evaluation&gt; "]"</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+For example <code>"rep1[2:2*b]"</code> evaluates to a repetition
+containing the elements from <code>rep1</code> starting with
+<code>rep1[2]</code> and ending with <code>rep1[2*b]</code>. Note that
+there are some known <a href="javascript:top.topics.activate(11);">bugs</a> in repetition slice handling.
+Unfortunately repetitions have not yet been implemented in the
+fully general form, but this will happen in the future.  For now,
+any construct that is not supported may be expressed in terms of
+<code>for</code>-statements as shown above.
+</p>
+
+<h3 class="pagetitle">Example 11</h3>
+
+<p>
+As an example, the following defines a repetition of 10 character
+objects, puts <code>'ABCDEFGHIJ'</code> into it, prints the middle
+four characters on standard output, then makes <code>crefs</code>
+refer to the same characters and (value) assigns to the first four of
+them: 
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>
+(* FILE ex11.gb *)
+-- betaenv:descriptor --
+(#
+   chars: [10] @char;
+   crefs: [0] ^char
+do
+   (for i:chars.range repeat '@'+i -> chars[i] for);
+   chars[4:7] -> stdio;
+   chars[]->crefs[];
+   '****'->crefs;
+   chars->stdio
+#)</pre></td></tr>
+  </table>
+</p>
+
+<p>
+Note that <code>"'****'->crefs"</code> truncates <code>crefs</code>
+such that its length becomes 4.  This just means that we have
+references to the first 4 elements of <code>chars</code>, and
+<code>chars</code> is not itself affected by this length adjustment.
+</p>
+
+<p>
+As usual, <a href="javascript:top.display.tuttopics.tut_activate(5);">coercion</a> ensures that the value assignment
+<code>"'****'->crefs"</code> implicitly accesses the character objects
+in <code>chars</code> by dereferencing the object references in
+<code>crefs</code>. 
+</p>
+
+<p>
+The <a href="javascript:top.display.tuttopics.tut_next();">next</a> topic is even more trivial, it's about explicit
+object instantiation.
+</p>
+
+<p><hr></p>
+<address>
+  <strong>Maintainer:</strong>
+  Erik Ernst,
+  <a href="mailto:eernst@cs.au.dk">eernst@cs.au.dk</a>.<br><br>
+  This page was updated on 17-Apr-2011
+<br>
+  URL - http://cs.au.dk/~eernst/gbeta/tut13.html
+</address>
+</body>
+</html>
+

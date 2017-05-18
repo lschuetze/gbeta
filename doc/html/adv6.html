@@ -1,0 +1,170 @@
+
+<html>
+<!-- Generated with M4 on the date shown at the bottom of this page -->
+<head><title>gbeta: Using a Virtual Prefix</title></head>
+<link rel="stylesheet" type="text/css" href="style/gbeta.css"/>
+<body class="page">
+<table width="100%">
+<tr><td align="right"></td></tr>
+<tr><td align="left"><h1 class="pagetitle">Using a Virtual Prefix</h1></td></tr>
+</table>
+<p><hr></p>
+
+<p>
+A virtual pattern is not dynamic in the same way a pattern variable
+is, because it never changes during the life-time of its enclosing
+object.  On the other hand, it is not possible in general to detect
+whether any given syntactic context has a most specific perspective on
+a given virtual, so many usages of a virtual pattern must be analyzed
+statically under the assumption that it could be <em>any</em>
+specialization of the statically known type.  Hence, inheriting from a
+virtual pattern generally means inheriting from a pattern which is not
+known before run-time. 
+</p>
+
+<p>
+The usage of a virtual pattern as a super-pattern is quite familiar,
+it's much like using ordinary specialization, apart from the fact that
+<font class="gbeta">gbeta</font> supports it and traditional BETA does not.  One difference
+which emerges when using it, however, is that the further-binding
+contributions must often be merged from more than one source.  This
+was actually the first source of inspiration for the <a href="javascript:top.display.advtopics.adv_activate(7);">type
+combination</a> mechanism in <font class="gbeta">gbeta</font>.
+</p>
+
+<h3 class="pagetitle">Example 8</h3>
+
+<p>
+This example shows a tiny container data-structure hierarchy in
+which an iteration method <code>scan</code> and a conditional
+iteration method <code>visit</code> are declared.  In traditional BETA
+it is often a problem that requires a work-around that a control
+structure method (such as <code>scan</code> or <code>visit</code>)
+cannot be virtual. This is because a virtual pattern cannot be a
+super-pattern, and a pattern which is a user defined control structure
+is usually always used as a super-pattern.  In <font class="gbeta">gbeta</font>, a virtual
+pattern can be a super-pattern.  If you know BETA you might want to
+experiment with a traditional BETA version of this fragment, just to
+see how much more complicated it gets. 
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre><small>
+(* FILE aex8.gb *)
+-- betaenv:descriptor --
+(#
+   container:
+     (# element:&lt; object; (* a type parameter for the contents *)
+        scan:&lt; (# current: ^element do INNER #);
+        visit:&lt; scan(# when:&lt; boolean do (if when then INNER if) #);
+     #);
+   list: container
+     (* as usual a dummy implementation: one element only *)
+     (# theElement: ^element;
+        append: (# enter theElement[] #);
+        scan::&lt; (# do theElement[]-&gt;current[]; INNER #)
+     #);
+   myList: @list(# element::string #);
+   s: ^string;
+do
+   'I''m just a lowly string!'-&gt;&s; s[]-&gt;myList.append;
+   myList.scan(# do current-&gt;stdio #);
+   myList.visit
+     (# when::(# do (current.length&lt;20)-&gt;value #) 
+     do current+'\n'-&gt;stdio 
+     #)
+#)</small></pre></td></tr>
+  </table>
+</p>
+
+<h3 class="pagetitle">Example 9</h3>
+
+<p>
+Another typical way to use a virtual pattern as a super-pattern is for
+error handling.  Again, this is a situation which is well-known by
+BETA programmers:  A certain method ought to be virtual because it is
+a method in a hierarchy where different patterns provide different
+implementations.  At the same time, the method must be non-virtual,
+because the error handling creates a need for using the method as a
+super-pattern.  A typical example is along the lines of: 
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>
+(#
+   container: 
+     (# element:&lt; object;
+	..
+	delete:&lt;
+	  (* remove the element 'elm' from
+           * this container; if 'elm' is not
+           * present then invoke 'notFound' *)
+	  (# notFound:&lt; object;
+	     elm: ^element
+          enter elm[]
+	  do INNER
+	  #);
+        ..
+     #);
+   list: .. (* implements 'find' etc *)
+   
+   myList: @list(# element::integer #);
+do
+   ..
+   someInteger[]-&gt;myList.delete
+   (# notFound::(# do .. (* error handling *)#)#);
+#)</pre></td></tr>
+  </table>
+</p>
+
+<p>
+Here's a runnable example illustrating the concept:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>
+(* FILE aex9.gb *)
+-- betaenv:descriptor --
+(#
+   abstract:
+     (# op:&lt;
+          (# err:&lt; (# do INNER #)
+          do INNER
+          #)
+     #);
+   concrete: @abstract
+     (# op::
+          (# err::&lt; (# do INNER #)
+          do INNER
+          #)
+     #)
+do
+   L: concrete.op(# err::(# do leave L #) do err #)
+#)</pre></td></tr>
+  </table>
+</p>
+
+<p>
+The <a href="javascript:top.display.advtopics.adv_next();">next</a> section presents the underlying mechanism for type
+combination, now that we've seen several more or less perspicuous
+examples of how it works. 
+</p>
+
+<p><hr></p>
+<address>
+  <strong>Maintainer:</strong>
+  Erik Ernst,
+  <a href="mailto:eernst@cs.au.dk">eernst@cs.au.dk</a>.<br><br>
+  This page was updated on 17-Apr-2011
+<br>
+  URL - http://cs.au.dk/~eernst/gbeta/adv6.html
+</address>
+</body>
+</html>
+

@@ -1,0 +1,197 @@
+<html>
+<!-- Generated with M4 on the date shown at the bottom of this page -->
+<head><title></title></head>
+<link rel="stylesheet" type="text/css" href="style/gbeta.css"/>
+<body class="topics">
+
+<table class="pagetitle" align=center border=0 cellpadding=0>
+  <form name="tut_form">
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="tut_activate(1);" 
+              name="tut_mark1">1</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="tut_activate(2);" 
+              name="tut_mark2">2</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="tut_activate(3);" 
+              name="tut_mark3">3</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="tut_activate(4);" 
+              name="tut_mark4">4</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="tut_activate(5);" 
+              name="tut_mark5">5</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="tut_activate(6);" 
+              name="tut_mark6">6</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="tut_activate(7);" 
+              name="tut_mark7">7</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="tut_activate(8);" 
+              name="tut_mark8">8</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="tut_activate(9);" 
+              name="tut_mark9">9</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="tut_activate(10);" 
+              name="tut_mark10">10</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="tut_activate(11);" 
+              name="tut_mark11">11</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="tut_activate(12);" 
+              name="tut_mark12">12</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="tut_activate(13);" 
+              name="tut_mark13">13</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="tut_activate(14);" 
+              name="tut_mark14">14</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="tut_activate(15);" 
+              name="tut_mark15">15</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="tut_activate(16);" 
+              name="tut_mark16">16</b>
+  </small></td>
+  </tr>
+    
+
+    <tr><td>&nbsp;</td></tr>
+    <tr>
+      <td align=right colspan=2><small>
+    <b><input type=button 
+              value="Pr"
+              onClick="tut_activate(tutselected-1);"></b>
+  </small></td>
+    </tr>
+    <tr>
+      <td align=right colspan=2><small>
+    <b><input type=button 
+              value="Nx"
+              onClick="tut_activate(tutselected+1);"></b>
+  </small></td>
+    </tr>
+  </form>
+</table>
+
+<script>
+var tutCount = 16;
+var tutselected = 1;
+
+var tutFile = Array(tutCount);
+for (var i=1; i<=tutCount; i++) {
+  tutFile[i] ="tut" + i;
+}
+
+tutRadio = new Array(tutCount);
+tutRadio = new Array(tutCount);
+tutRadio[1] = document.tut_form.tut_mark1;
+tutRadio[2] = document.tut_form.tut_mark2;
+tutRadio[3] = document.tut_form.tut_mark3;
+tutRadio[4] = document.tut_form.tut_mark4;
+tutRadio[5] = document.tut_form.tut_mark5;
+tutRadio[6] = document.tut_form.tut_mark6;
+tutRadio[7] = document.tut_form.tut_mark7;
+tutRadio[8] = document.tut_form.tut_mark8;
+tutRadio[9] = document.tut_form.tut_mark9;
+tutRadio[10] = document.tut_form.tut_mark10;
+tutRadio[11] = document.tut_form.tut_mark11;
+tutRadio[12] = document.tut_form.tut_mark12;
+tutRadio[13] = document.tut_form.tut_mark13;
+tutRadio[14] = document.tut_form.tut_mark14;
+tutRadio[15] = document.tut_form.tut_mark15;
+tutRadio[16] = document.tut_form.tut_mark16;
+
+
+tutRadio[1].checked = true;
+for (var i=2; i<=tutCount; i++) {
+  tutRadio[i].checked = false;
+}
+
+function tut_activate(nr) {
+  if (nr<1) nr = 1;
+  if (nr>=tutCount) nr=tutCount;
+  oldselected = tutselected;
+  tutselected = nr;
+  tutRadio[oldselected].checked = false; // deactivate old selection
+  tutRadio[tutselected].checked = true; // activate new selection
+  parent.frames[1].location = tutFile[tutselected] + ".html";
+}
+
+function tut_next() {
+  tut_activate(tutselected+1);
+}
+
+function tut_prev() {
+  tut_activate(tutselected-1);
+}
+
+</script>
+
+</body>
+</html>
+

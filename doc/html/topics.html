@@ -1,0 +1,238 @@
+<html>
+<!-- Generated with M4 on the date shown at the bottom of this page -->
+<head><title></title></head>
+<link rel="stylesheet" type="text/css" href="style/gbeta.css"/>
+<body class="topics">
+
+<p>&nbsp;</p>
+<div class="pagetitle" align="center">
+  <table border=1 align="center">
+    <tr><td><img src="logo.jpg" alt="gbeta logo"></td></tr>
+  </table>
+  <h2 class="pagetitle"><font class="gbeta">gbeta</font></h2>
+</div>
+
+<table class="pagetitle" align=center border=0 cellpadding=0>
+<form name="topicForm">
+    <tr>
+    <td align=center width=5>
+      <img src="bullet.gif" name="mark0">
+    </td>
+    <td align=left><small>
+    <b><input type=button value="What is gbeta?"
+              onClick="activate(0);"></b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=center width=5>
+      <img src="bullet.gif" name="mark1">
+    </td>
+    <td align=left><small>
+    <b><input type=button value="Getting started"
+              onClick="activate(1);"></b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=center width=5>
+      <img src="bullet.gif" name="mark2">
+    </td>
+    <td align=left><small>
+    <b><input type=button value="Tutorial"
+              onClick="activate(2);"></b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=center width=5>
+      <img src="bullet.gif" name="mark3">
+    </td>
+    <td align=left><small>
+    <b><input type=button value="Modularization"
+              onClick="activate(3);"></b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=center width=5>
+      <img src="bullet.gif" name="mark4">
+    </td>
+    <td align=left><small>
+    <b><input type=button value="Lazy analysis"
+              onClick="activate(4);"></b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=center width=5>
+      <img src="bullet.gif" name="mark5">
+    </td>
+    <td align=left><small>
+    <b><input type=button value="Advanced Issues"
+              onClick="activate(5);"></b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=center width=5>
+      <img src="bullet.gif" name="mark6">
+    </td>
+    <td align=left><small>
+    <b><input type=button value="Papers"
+              onClick="activate(6);"></b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=center width=5>
+      <img src="bullet.gif" name="mark7">
+    </td>
+    <td align=left><small>
+    <b><input type=button value="Download"
+              onClick="activate(7);"></b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=center width=5>
+      <img src="bullet.gif" name="mark8">
+    </td>
+    <td align=left><small>
+    <b><input type=button value="Installation"
+              onClick="activate(8);"></b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=center width=5>
+      <img src="bullet.gif" name="mark9">
+    </td>
+    <td align=left><small>
+    <b><input type=button value="Compiling"
+              onClick="activate(9);"></b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=center width=5>
+      <img src="bullet.gif" name="mark10">
+    </td>
+    <td align=left><small>
+    <b><input type=button value="FAQ"
+              onClick="activate(10);"></b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=center width=5>
+      <img src="bullet.gif" name="mark11">
+    </td>
+    <td align=left><small>
+    <b><input type=button value="Bugs etc."
+              onClick="activate(11);"></b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=center width=5>
+      <img src="bullet.gif" name="mark12">
+    </td>
+    <td align=left><small>
+    <b><input type=button value="Copyright (GPL)"
+              onClick="activate(12);"></b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=center width=5>
+      <img src="bullet.gif" name="mark13">
+    </td>
+    <td align=left><small>
+    <b><input type=button value="News"
+              onClick="activate(13);"></b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=center width=5>
+      <img src="bullet.gif" name="mark14">
+    </td>
+    <td align=left><small>
+    <b><input type=button value="What is BETA?"
+              onClick="activate(14);"></b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=center width=5>
+      <img src="bullet.gif" name="mark15">
+    </td>
+    <td align=left><small>
+    <b><input type=button value="Compatibility"
+              onClick="activate(15);"></b>
+  </small></td>
+  </tr>
+
+  <tr><td>&nbsp;</td></tr>
+  <tr>
+    <td>&nbsp;</td><td align=left><small>
+    <b><input type=button value="Previous"
+              onClick="activate(selected-1);"></b>
+  </small></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td><td align=left><small>
+    <b><input type=button value="Next"
+              onClick="activate(selected+1);"></b>
+  </small></td>
+  </tr>
+</form>
+</table>
+
+<script>
+var topicCount = 16;
+var selected = 0;
+
+var topicFile = Array(topicCount);
+
+topicFile[0]  = "intro";
+topicFile[1]  = "start";
+topicFile[2]  = "tutorial";
+topicFile[3]  = "modularization";
+topicFile[4]  = "lazy";
+topicFile[5]  = "advanced";
+topicFile[6]  = "papers";
+topicFile[7]  = "download";
+topicFile[8]  = "installation";
+topicFile[9]  = "compiling";
+topicFile[10] = "faq";
+topicFile[11] = "bugs";
+topicFile[12] = "copyright";
+topicFile[13] = "beta";
+topicFile[14] = "beta";
+topicFile[15] = "compatibility";
+
+topicImg = new Array(topicCount);
+
+topicImg[0]  = document.mark0;
+topicImg[1]  = document.mark1;
+topicImg[2]  = document.mark2;
+topicImg[3]  = document.mark3;
+topicImg[4]  = document.mark4;
+topicImg[5]  = document.mark5;
+topicImg[6]  = document.mark6;
+topicImg[7]  = document.mark7;
+topicImg[8]  = document.mark8;
+topicImg[9]  = document.mark9;
+topicImg[10] = document.mark10;
+topicImg[11] = document.mark11;
+topicImg[12] = document.mark12;
+topicImg[13] = document.mark13;
+topicImg[14] = document.mark14;
+topicImg[15] = document.mark15;
+
+function activate(nr) {
+  if (nr<0) nr = 0;
+  if (nr>=topicCount) nr=topicCount-1;
+  oldselected = selected;
+  selected = nr;
+  topicImg[oldselected].src = "dot.jpg"; // deactivate old selection
+  topicImg[selected].src = "bullet.gif"; // activate new selection
+  parent.frames[1].location = topicFile[selected] + ".html";
+}
+
+topicImg[0].src="bullet.gif";
+for (var i=1; i<topicCount; i++) {
+  topicImg[i].src="dot.jpg";
+}
+</script>
+
+</body>
+</html>
+

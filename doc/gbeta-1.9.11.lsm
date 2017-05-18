@@ -1,0 +1,22 @@
+Begin3
+Title:          gbeta
+Version:        1.9.11
+Entered-date:   16APR11
+Description:    Compiler and runtime for the programming language gbeta;
+Description:    an object-oriented language which supports virtual attributes,
+Description:    general block structure, and dynamic and propagating 
+Description:    inheritance, while preserving statically checked type safety;
+Description:    gbeta is a generalized version of the language BETA.
+Keywords:	gbeta, programming language, object-oriented, compiler, runtime
+Author:         eernst@cs.au.dk -- Erik Ernst
+Maintained-by:  eernst@cs.au.dk -- Erik Ernst
+Primary-site:   http://cs.au.dk/gbeta/
+Primary-site:   1.8M gbeta-1.9.11-src.tgz
+Primary-site:   2.0M gbeta-1.9.11-src.zip
+Primary-site:   3.6M gbeta-1.9.11-i386-linux-elf-bin.tgz
+Primary-site:   [presently not available: ????K gbeta-1.9.11-windows-bin.zip]
+Alternate-site: (None, yet)
+Platforms:	Linux/Intel, Windows (may be compiled on others) 
+Copying-policy: GPL
+End
+

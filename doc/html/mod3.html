@@ -1,0 +1,109 @@
+
+<html>
+<!-- Generated with M4 on the date shown at the bottom of this page -->
+<head><title>gbeta: A Concrete Example</title></head>
+<link rel="stylesheet" type="text/css" href="style/gbeta.css"/>
+<body class="page">
+<table width="100%">
+<tr><td align="right"></td></tr>
+<tr><td align="left"><h1 class="pagetitle">A Concrete Example</h1></td></tr>
+</table>
+<p><hr></p>
+
+<p>
+Many object oriented languages have a basic inheritance hierarchy
+where ordered entities inherit from an <code>Ordered</code> class, such 
+that the commonalities for all classes of ordered entities can be
+factored out.  There is no tradition to do this in the BETA family of
+languages, but it is possible to write some patterns that implement
+such a hierarchy.  The following example does just that (in <font class="gbeta">gbeta</font>, of
+course).
+</p>
+
+<p>
+First we must establish a universe wherein everything can be placed:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>(* FILE betaenv.gb *)
+-- betaenv:descriptor --
+(#
+   &lt;&lt;SLOT lib:attributes&gt;&gt;;
+   puttext: (# enter stdio do INNER #);
+   putline: puttext(# do '\n'->stdio #);
+   theProgram: @&lt;&lt;SLOT program:merge&gt;&gt;
+do
+   theProgram
+#)</pre></td></tr>
+  </table>
+</p>
+
+<p>
+This is a minimal basic library; this would normally be provided as
+part of the language implementation, but there is nothing magic about
+it so we show it here along with the other files.  For brevity we just
+include the few 
+things which are actually used, and we even leave out methods to print 
+numbers.  The name <code>stdio</code> denotes a primitive (built-in)
+entity which provides access to the standard input and standard
+output.  Note the <code>lib:attributes</code> slot; such a slot is
+conventionally defined in <code>betaenv</code>, and it provides us 
+with a "global" namespace.  We also have a <code>program:merge</code>
+slot; this slot is a placeholder for the program, so all we need to do
+when we write programs is to claim this place.  The following fragment
+does just that:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>(* FILE orderedUser.gb *)
+ORIGIN 'betaenv';
+INCLUDE 'orderedNumber' 'orderedText' 'orderedAsString'
+
+-- program:merge --
+
+(# 
+   t1,t2: ^text;
+   n1,n2: ^number;
+   r: @real;
+do
+   'Hello, '->(&t1).init;
+   'world!'->(&t2).init;
+   (if t1[]->t2.lessEqual then t1.asString->puttext if);
+   (t1[]->t2.max).asString->putline;
+   
+   3.14159->float.init->n1[]; 
+   4->int.init->n2[];
+   (n1[]->n2.max).asString->putline
+#)</pre></td></tr>
+  </table>
+</p>
+
+<p>
+The <code>--program:merge--</code> syntax means "Here comes the piece of
+code which is called <code>program</code> (and it is syntactically a merge
+construct)".  The INCLUDE properties ensure that the other fragments
+we need will be included, and the ORIGIN property specifies that the
+place where the piece of code called <code>program</code> is used is in
+<code>betaenv</code>.  This is the main program, in the sense that it is
+the intended argument to <code>gbeta</code>, it contains the application
+code which uses the libraries (the remaining files), and it ties all
+the pieces together.  The <a href="javascript:top.display.modtopics.mod_next();">next</a> section presents the missing
+pieces.
+</p>
+
+<p><hr></p>
+<address>
+  <strong>Maintainer:</strong>
+  Erik Ernst,
+  <a href="mailto:eernst@cs.au.dk">eernst@cs.au.dk</a>.<br><br>
+  This page was updated on 17-Apr-2011
+<br>
+  URL - http://cs.au.dk/~eernst/gbeta/mod3.html
+</address>
+</body>
+</html>
+

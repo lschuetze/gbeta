@@ -1,0 +1,195 @@
+
+<html>
+<!-- Generated with M4 on the date shown at the bottom of this page -->
+<head><title>gbeta: GNU Emacs Integration (continued)</title></head>
+<link rel="stylesheet" type="text/css" href="style/gbeta.css"/>
+<body class="page">
+<table width="100%">
+<tr><td align="right"></td></tr>
+<tr><td align="left"><h1 class="pagetitle">GNU Emacs Integration (continued)</h1></td></tr>
+</table>
+<p><hr></p>
+
+This section describes a few remaining commands that did not fit into
+the previous sections.
+
+<h3 class="pagetitle">Examining the stack etc.</h3>
+
+<p>
+It is possible to print the current execution stack with: 
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>stack</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+and to print only the topmost element on the stack with:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>topofstack</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+The topmost element on the stack is the "current" object, and one
+particular part of this object is the "current object slice",
+containing the state and executing the dopart from one particular
+"MainPart" (which is the grammatical name of a declaration block, 
+i.e., a piece of syntax enclosed by <code>{..}</code> and possibly
+prepended by <code>%(..|..)</code> or just <code>%</code>).  The
+current object slice can be printed with the command:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>currentslice</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+The outermost object in the nesting structure contains
+everything in a <font class="gbeta">gbeta</font> program execution, and this object can
+be printed using the following command:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>primaryobject</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+The primary object is the only part of the state which can be
+inspected in the <code>"terminated>"</code> state.
+</p>
+
+<h3 class="pagetitle">Killing threads</h3>
+
+<p>
+When executing a concurrent program, it may be convenient to be able
+to kill the current thread, and this is done with:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>kill</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+If a given thread is not the active one when the prompt is printed,
+there is no way to browse the set of threads and discover what
+identity number a given thread has, and then kill it.  (This may be
+fixed later, though.)  A special variant of the command: 
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>kill all</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+will kill all threads, just like repeating <code>kill</code> enough
+times, hence making it possible to restart the execution of the
+program immediately.
+</p>
+
+<h3 class="pagetitle">Name applications and declarations</h3>
+
+<p>
+It is often necessary to look up the declaration associated with a
+given application (i.e. non-declaring occurrence) of the name.  Since
+the scope rules are complicated in a language with inheritance, and
+already BETA has especially rich scope rules because of the combination
+of general nesting and inheritance, and since <font class="gbeta">gbeta</font> makes the
+whole thing even more complicated by adding multiple inheritance and
+also inheritance from virtual patterns (whose static type depends on
+the position of the application), since all that (and even without 
+it :-), it is very important to have tool support for interactive name
+lookups.
+</p>
+
+<p>
+In <font class="gbeta">gbeta</font>, interactive name lookup is supported by means 
+of the <code>declaration</code> command, like:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>decl 376</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+.. but since a character position argument is awkward (who knows the 
+exact character position of a piece of source code when looking at
+it?) this kind of invocation is seldom used.  Control-clicking on the
+name application, on the other hand, 
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>[ control-click! ]</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+does exactly the same thing, and this brings forward the source
+code containing the declaration, even if it is in another file
+than the application.
+</p>
+
+<p>
+Please note that this is <EM>real</EM> name lookup, and it will not
+confuse two name declarations even if the declared names are spelled
+identically, nor will it find a name mentioned in the middle of a
+comment.  It uses the information from static analysis which is
+created and kept by <font class="gbeta">gbeta</font> anyway.
+</p>
+
+<p>
+This ends the description of the practical usage of <font class="gbeta">gbeta</font>.
+</p>
+
+<p><hr></p>
+<address>
+  <strong>Maintainer:</strong>
+  Erik Ernst,
+  <a href="mailto:eernst@cs.au.dk">eernst@cs.au.dk</a>.<br><br>
+  This page was updated on 17-Apr-2011
+<br>
+  URL - http://cs.au.dk/~eernst/gbeta/start9.html
+</address>
+</body>
+</html>
+

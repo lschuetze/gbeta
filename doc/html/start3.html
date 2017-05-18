@@ -1,0 +1,166 @@
+
+<html>
+<!-- Generated with M4 on the date shown at the bottom of this page -->
+<head><title>gbeta: Command Line Interaction</title></head>
+<link rel="stylesheet" type="text/css" href="style/gbeta.css"/>
+<body class="page">
+<table width="100%">
+<tr><td align="right"></td></tr>
+<tr><td align="left"><h1 class="pagetitle">Command Line Interaction</h1></td></tr>
+</table>
+<p><hr></p>
+
+<p>
+Since <font class="gbeta">gbeta</font> is biased towards language design and semantics, the
+support for observation of program executions has a high priority.
+When running interactively, i.e. when giving the <code>-i</code>
+option:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>gbeta -i ...</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+the execution stops at the first statement of the program, and you can
+investigate what is going on much like in a source level debugger.
+You can print the state of objects, execute ad-hoc statements, and
+retrieve static analysis information about program elements, e.g., the
+statically known type of a reference attribute.  Moreover, you can
+control the program execution by single-stepping, setting breakpoints,
+and running the program. 
+</p>
+
+<h3 class="pagetitle">Starting an interactive session</h3>
+
+<p>
+Try to execute the program <code>hello2.gb</code> interactively: 
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>gbeta -i hello2</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+The program looks like this:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>-- universe:descriptor --
+// FILE hello2.gb 
+{
+  s: string;
+  hello: %(|'Hello')
+#
+  'world!\n' | s;
+   hello+', '+s | stdio
+} </pre></td></tr>
+  </table>
+</p>
+
+<p>
+When <font class="gbeta">gbeta</font> starts executing this program interactively, you
+will have the usual startup message, and then:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>====================
+{&#x60;26-126
+  s: string;
+  hello: %(| 'Hello'){&#x60;70-80
+    INNER
+  }
+#
+  <u><b>'world!\n' | s</b></u>;
+  hello+', '+s | stdio;
+  INNER
+}
+====================
+
+executing~1&gt; _ </pre></td></tr>
+  </table>
+</p>
+
+<p>
+The source code surrounding the currently executing statement
+is pretty-printed before the interactive prompt
+<code>"executing~1&gt; _"</code>.  Depending on the capabilities of the
+terminal, the exact statement to execute next is emphasized one way
+or another, in this case by an underlined and bold font.  The
+<code>-c</code> option is used to select other color coding schemes;
+in particular, option <code>-cc</code> selects the most expressive one
+using ISO 6429 color escape sequences.  This is also an ANSI standard,
+and it is often used e.g. under Linux to show color coded directory
+listings.
+</p>
+
+<p>
+As you can see, the pretty-printed version of the code is not
+identical to the original source code, and the difference is not just
+a matter white space.  It is annotated with source code locations
+(character positions) marked by a backquote character ("&#x60;"),
+which may be helpful in order to find the original source code again;
+in particular, such a backquoted expression is convenient in Emacs
+where you can click on it in order to find the code (more details
+given later on).  Another difference is that certain implicit elements
+have been made explicit; for instance, the <code>INNER</code> keyword
+at the end is the implicitly added <code>INNER</code> which is added
+by the compiler if the block does not contain an <code>INNER</code>.
+For now, we will not go into these details, but the general message is
+that the pretty-print provides a little bit more information about the
+program than the original source code, and also that this type of
+pretty-printed expressions occur in many contexts when using the
+<font class="gbeta">gbeta</font> compiler and virtual machine interactively.
+</p>
+
+<h3 class="pagetitle">The interactive prompt</h3>
+
+<p>
+There are two different interactive prompts, namely 
+<code>"terminated&gt; _"</code> and prompts like 
+<code>"executing~1&gt; _"</code>.  The first one indicates that no
+threads are currently executing.  In this situation many commands are
+disabled, but the program can e.g. be started with <code>run</code>
+or <code>step</code>. 
+</p>
+
+<p>
+The second kind of prompt, <code>"executing~1&gt; _"</code>, indicates
+that the program is currently being executed, and it specifies the
+identifying number for the thread which is the current run-time
+context.  For programs without concurrency, the thread number is
+always one.  For programs with concurrency it is nice to know just
+what thread was trapped at a given breakpoint..
+</p>
+
+<p>
+After these preparations, the <a href="javascript:top.display.starttopics.start_next();">next</a> section deals with the
+actual execution of the program.
+</p>
+
+<p><hr></p>
+<address>
+  <strong>Maintainer:</strong>
+  Erik Ernst,
+  <a href="mailto:eernst@cs.au.dk">eernst@cs.au.dk</a>.<br><br>
+  This page was updated on 17-Apr-2011
+<br>
+  URL - http://cs.au.dk/~eernst/gbeta/start3.html
+</address>
+</body>
+</html>
+

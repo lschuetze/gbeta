@@ -1,0 +1,139 @@
+<html>
+<!-- Generated with M4 on the date shown at the bottom of this page -->
+<head><title></title></head>
+<link rel="stylesheet" type="text/css" href="style/gbeta.css"/>
+<body class="topics">
+
+<table class="pagetitle" align=center border=0 cellpadding=0>
+  <form name="start_form">
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="start_activate(1);" 
+              name="start_mark1">1</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="start_activate(2);" 
+              name="start_mark2">2</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="start_activate(3);" 
+              name="start_mark3">3</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="start_activate(4);" 
+              name="start_mark4">4</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="start_activate(5);" 
+              name="start_mark5">5</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="start_activate(6);" 
+              name="start_mark6">6</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="start_activate(7);" 
+              name="start_mark7">7</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="start_activate(8);" 
+              name="start_mark8">8</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="start_activate(9);" 
+              name="start_mark9">9</b>
+  </small></td>
+  </tr>
+    
+
+    <tr><td>&nbsp;</td></tr>
+    <tr>
+      <td align=right colspan=2><small>
+    <b><input type=button 
+              value="Pr"
+              onClick="start_activate(startselected-1);"></b>
+  </small></td>
+    </tr>
+    <tr>
+      <td align=right colspan=2><small>
+    <b><input type=button 
+              value="Nx"
+              onClick="start_activate(startselected+1);"></b>
+  </small></td>
+    </tr>
+  </form>
+</table>
+
+<script>
+var startCount = 9;
+var startselected = 1;
+
+var startFile = Array(startCount);
+for (var i=1; i<=startCount; i++) {
+  startFile[i] ="start" + i;
+}
+
+startRadio = new Array(startCount);
+startRadio[1] = document.start_form.start_mark1;
+startRadio[2] = document.start_form.start_mark2;
+startRadio[3] = document.start_form.start_mark3;
+startRadio[4] = document.start_form.start_mark4;
+startRadio[5] = document.start_form.start_mark5;
+startRadio[6] = document.start_form.start_mark6;
+startRadio[7] = document.start_form.start_mark7;
+startRadio[8] = document.start_form.start_mark8;
+startRadio[9] = document.start_form.start_mark9;
+
+
+startRadio[1].checked = true;
+for (var i=2; i<=startCount; i++) {
+  startRadio[i].checked = false;
+}
+
+function start_activate(nr) {
+  if (nr<1) nr = 1;
+  if (nr>=startCount) nr=startCount;
+  oldselected = startselected;
+  startselected = nr;
+  startRadio[oldselected].checked = false; // deactivate old selection
+  startRadio[startselected].checked = true; // activate new selection  
+  parent.frames[1].location = startFile[startselected] + ".html";
+}
+
+function start_next() {
+  start_activate(startselected+1);
+}
+
+function start_prev() {
+  start_activate(startselected-1);
+}
+</script>
+
+</body>
+</html>
+

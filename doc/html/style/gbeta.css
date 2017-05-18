@@ -1,0 +1,61 @@
+
+body.page { 
+  font-family: sans-serif;
+  text-align: justify; 
+  margin-left: 17%; 
+  margin-right: 17% 
+}
+
+body.topic { text-align: center }
+
+*.remark {
+  font-family: sans-serif;
+  text-align: left;
+  margin-left: -25%;
+  margin-right: -1%;
+}
+
+*.pagetitle {
+  color: #400000; 
+  text-align: center;
+  padding: 0.5em
+}
+
+*.pagetitle_all { color: #000080 }
+
+font.gbeta { font-family: sans-serif }
+
+a.hover { background: cyan }
+
+th { text-align: left; padding: 3mm; border-bottom: ridge 1mm }
+
+td { text-align: left; padding: 1mm }
+
+td.break { text-indent: 1cm; color: navy }
+
+td.work { color: blue }
+
+table.schedule {
+  background: #eeeeee;
+  padding: 10px;
+  border: 1mm outset;
+}
+
+table.code {
+  border: 9px outset;
+  padding: 4px;
+  background: #ffffff;
+}
+
+table.funny {
+  border: 9px outset;
+  padding: 4px;
+  background: #aabbcc;
+}
+
+address { font-size: 70%; text-align: right }
+
+*.currentstatement {
+  background: #ffff00;
+}
+

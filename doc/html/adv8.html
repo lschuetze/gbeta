@@ -1,0 +1,162 @@
+
+<html>
+<!-- Generated with M4 on the date shown at the bottom of this page -->
+<head><title>gbeta: More Versatile Control Structures</title></head>
+<link rel="stylesheet" type="text/css" href="style/gbeta.css"/>
+<body class="page">
+<table width="100%">
+<tr><td align="right"></td></tr>
+<tr><td align="left"><h1 class="pagetitle">More Versatile Control Structures</h1></td></tr>
+</table>
+<p><hr></p>
+
+<p>
+An old idea in the BETA community, and a good one, is to provide
+"value" versions of the built-in control structures.  This has been
+partially implemented in <font class="gbeta">gbeta</font> (but not in the <a href="http://daimi.au.dk/~beta/Daimi/index.html" target="_top"
+   >Mjolner BETA System</a> compiler).
+Such versions are used in assignment context or in evaluation
+context. 
+</p>
+
+<p>
+An example of a "value" version of an <code>if</code>-statement is:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>(if b then 1 else a+b if) -&gt; putint</pre></td></tr>
+  </table>
+</p>
+
+<p>
+This works like:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>1 -&gt; putint</pre></td></tr>
+  </table>
+</p>
+
+<p>
+if <code>b</code> evaluates to <code>true</code>, and it works like:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>a+b -&gt; putint</pre></td></tr>
+  </table>
+</p>
+
+<p>
+if <code>b</code> evaluates to <code>false</code>.
+</p>
+
+<p>
+This is of course a similar semantics as that of the
+<code>if</code>-statement in functional languages such as SML or
+Haskell.  The assignment variant: 
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>x+y*y -&gt; (if b then putint else x if)</pre></td></tr>
+  </table>
+</p>
+
+<p>
+resembles a (non-standard) usage of the ternary <code>"?:"</code>
+operator in C, meaning: 
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>x+y*y -&gt; putint</pre></td></tr>
+  </table>
+</p>
+
+<p>
+if <code>b</code> evaluates to <code>true</code>, and:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>x+y*y -&gt; x</pre></td></tr>
+  </table>
+</p>
+
+<p>
+if <code>b</code> evaluates to <code>false</code>.  Of course there is
+a double-sided version of this, too:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>x+y*y -&gt; (if b then putint; 3 else a; a+b if) -&gt; b</pre></td></tr>
+  </table>
+</p>
+
+<p>
+The reason why this is not entirely trivial (perhaps it is ;-) is that
+it is a surprisingly handy way to express a lot of things.
+</p>
+
+<p>
+There should be a similar "value" version of the general
+<code>if</code>-statement, i.e. the control structure in BETA which
+resembles <code>switch</code> in C (not too much, mind you!), but this
+has not yet been implemented.  Similarly, there should be a "value"
+version of the <code>for</code>-statement which would iterate the
+transfer of values such that:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>1 -&gt; (for 5 repeat i; i+1 for) -&gt; putint</pre></td></tr>
+  </table>
+</p> 
+
+<p>
+would be the same as: 
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>1-&gt;i; 
+i+1-&gt;i; 
+i+1-&gt;i; 
+i+1-&gt;i; 
+i+1-&gt;i; 
+i+1-&gt;putint</pre></td></tr>
+  </table>
+</p> 
+</p>
+
+<p>
+<a href="javascript:top.display.advtopics.adv_next();">After this</a> slightly less serious section, we'll leave the
+language <font class="gbeta">gbeta</font> and look at a few changes in the
+<a href="javascript:top.topics.activate(3);">modularization</a> system. 
+</p>
+
+<p><hr></p>
+<address>
+  <strong>Maintainer:</strong>
+  Erik Ernst,
+  <a href="mailto:eernst@cs.au.dk">eernst@cs.au.dk</a>.<br><br>
+  This page was updated on 17-Apr-2011
+<br>
+  URL - http://cs.au.dk/~eernst/gbeta/adv8.html
+</address>
+</body>
+</html>
+

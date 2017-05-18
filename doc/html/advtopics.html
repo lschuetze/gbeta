@@ -1,0 +1,139 @@
+<html>
+<!-- Generated with M4 on the date shown at the bottom of this page -->
+<head><title></title></head>
+<link rel="stylesheet" type="text/css" href="style/gbeta.css"/>
+<body class="topics">
+
+<table class="pagetitle" align=center border=0 cellpadding=0>
+  <form name="adv_form">
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="adv_activate(1);" 
+              name="adv_mark1">1</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="adv_activate(2);" 
+              name="adv_mark2">2</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="adv_activate(3);" 
+              name="adv_mark3">3</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="adv_activate(4);" 
+              name="adv_mark4">4</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="adv_activate(5);" 
+              name="adv_mark5">5</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="adv_activate(6);" 
+              name="adv_mark6">6</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="adv_activate(7);" 
+              name="adv_mark7">7</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="adv_activate(8);" 
+              name="adv_mark8">8</b>
+  </small></td>
+  </tr>
+    <tr>
+    <td align=left><small>
+    <b><input type=radio 
+              onClick="adv_activate(9);" 
+              name="adv_mark9">9</b>
+  </small></td>
+  </tr>
+    
+
+    <tr><td>&nbsp;</td></tr>
+    <tr>
+      <td align=right colspan=2><small>
+    <b><input type=button 
+              value="Pr"
+              onClick="adv_activate(advselected-1);"></b>
+  </small></td>
+    </tr>
+    <tr>
+      <td align=right colspan=2><small>
+    <b><input type=button 
+              value="Nx"
+              onClick="adv_activate(advselected+1);"></b>
+  </small></td>
+    </tr>
+  </form>
+</table>
+
+<script>
+var advCount = 9;
+var advselected = 1;
+
+var advFile = Array(advCount);
+for (var i=1; i<=advCount; i++) {
+  advFile[i] ="adv" + i;
+}
+
+avdRadio = new Array(advCount);
+avdRadio[1] = document.adv_form.adv_mark1;
+avdRadio[2] = document.adv_form.adv_mark2;
+avdRadio[3] = document.adv_form.adv_mark3;
+avdRadio[4] = document.adv_form.adv_mark4;
+avdRadio[5] = document.adv_form.adv_mark5;
+avdRadio[6] = document.adv_form.adv_mark6;
+avdRadio[7] = document.adv_form.adv_mark7;
+avdRadio[8] = document.adv_form.adv_mark8;
+avdRadio[9] = document.adv_form.adv_mark9;
+
+
+avdRadio[1].checked = true;
+for (var i=2; i<=advCount; i++) {
+  avdRadio[i].checked = false;
+}
+
+function adv_activate(nr) {
+  if (nr<1) nr = 1;
+  if (nr>=advCount) nr=advCount;
+  oldselected = advselected;
+  advselected = nr;
+  avdRadio[oldselected].checked = false; // deactivate old selection
+  avdRadio[advselected].checked = true; // activate new selection
+  parent.frames[1].location = advFile[advselected] + ".html";
+}
+
+function adv_next() {
+  adv_activate(advselected+1);
+}
+
+function adv_prev() {
+  adv_activate(advselected-1);
+}
+</script>
+
+</body>
+</html>
+

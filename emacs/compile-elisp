@@ -1,0 +1,6 @@
+#!/bin/sh
+emacs --batch \
+    --eval '(load-file "gbeta-mode.el")' \
+    --eval '(load-file "gbeta-font-lock.el")' \
+    --eval '(byte-compile-file "'$1'")';
+

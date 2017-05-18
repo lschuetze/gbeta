@@ -1,0 +1,77 @@
+
+			   README for gbeta
+			   ----------------
+
+----------------------------------------------------------------------
+
+Since these files are under the GNU GENERAL PUBLIC LICENSE, the source
+files are made available to you per the terms of that copyright.
+For more information refer to the file COPYING, which you should have
+received as part of this package; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+----------------------------------------------------------------------
+
+This is an implementation of the programming language gbeta, which is
+a generalization of the language BETA.  For more information about
+gbeta and this implementation, please take a look at the web site:
+
+  http://www.cs.au.dk/~eernst/gbeta/
+
+A snapshot of this site is also distributed in this package, in the 
+directory html.  Details about installation and getting started are
+also given in the pages of this web site.
+
+The language gbeta is (essentially) backwards compatible with the 
+language BETA, which is a direct successor to the first OO language,
+Simula.  To learn more about the language BETA, check out this site:
+
+  http://www.cs.au.dk/~beta/
+
+Compared to BETA, gbeta is built on a more general semantic foundation 
+(based on full-fledged mixins), and this enhances the expressive 
+power and flexibility of the language and its type system.  For 
+instance, the combination of (generalized) virtual attributes and 
+general block structure gives rise to a phenomenon which is called 
+propagating combinations or deep mixin composition.  More details
+can be found in the paper "Propagating Class and Method Combination",
+Proceedings ECOOP'99.  Some important properties of the type system
+are presented in the paper "Family Polymorphism", Proceedings ECOOP'01,
+and others are presented in "Higher-Order Hierarchies", Proceedings 
+ECOOP'03.  Soundness of a small core of the static analysis is shown
+in 'A Virtual Class Calculus', POPL 2006 (joint work with Klaus
+Ostermann and William Cook).
+
+----------------------------------------------------------------------
+
+There is a man page in the distribution (the file doc/gbeta.1) which 
+documents the command line arguments/options, as well as the command
+language which is used during interactive sessions.
+
+Feed back about gbeta is highly appreciated, both about the language
+design effort that it incarnates and its implementation.  You are
+welcome to perform experiments based on gbeta---in that case, do not 
+hesitate to contact me for help or discussions!  The USENET news 
+group comp.lang.beta would also be an appropriate place for 
+such discussions.
+
+----------------------------------------------------------------------
+
+This implementation of gbeta is written in the Mjolner BETA System (an
+implementation of BETA with a compiler, a structure editor, a
+debugger, and much more).  This means that you would need the Mjolner
+BETA System in order to recompile gbeta.
+
+The Mjolner BETA System used to be for sale only, but it can now be
+downloaded for free, so you can compile gbeta and experiment with
+variations as you like.
+
+Version 1.9.11 of gbeta was developed with release 5_2_2c of the Mjolner
+BETA System, but probably a number of other releases will work just
+as well.
+
+----------------------------------------------------------------------
+
+                                        -- Erik Ernst 
+                                           eernst@cs.au.dk
+

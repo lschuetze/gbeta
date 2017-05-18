@@ -1,0 +1,378 @@
+
+<html>
+<!-- Generated with M4 on the date shown at the bottom of this page -->
+<head><title>gbeta: Installation of <font class="gbeta">gbeta</font></title></head>
+<link rel="stylesheet" type="text/css" href="style/gbeta.css"/>
+<body class="page">
+<table width="100%">
+<tr><td align="right"></td></tr>
+<tr><td align="left"><h1 class="pagetitle">Installation of <font class="gbeta">gbeta</font></h1></td></tr>
+</table>
+<p><hr></p>
+
+<p>
+Installation has several aspects.  First installation of
+<a href="#source">source code</a> is covered, and then
+the <a href="#binary">binary distributions</a> are treated.  
+The Windows platforms are discussed <a href="#windows">separately</a>.
+</p>
+
+<p>
+If you want to install in <a href="#nonstandard">another place than your
+home</a> directory, e.g., because you are an administrator of a
+multi-user system, you must adjust a few things.  Finally, no matter
+what platform you're using and no matter where you installed, you must
+<a href="#path">enhance your path</a> to include the place where the
+<font class="gbeta">gbeta</font> script is located, and you are ready to
+<a href="#check">check</a> that your installation works.
+</p>
+
+<a name="source"><h3 class="pagetitle">Source Code</h3>
+
+<p>
+If you have <a href="javascript:top.topics.activate(7);">downloaded</a> the source code, i.e. the
+file <code>gbeta-1.9.11-src.tgz</code>, then you probably wish to
+unpack it, otherwise you may skip directly to the <a
+href="#binary">installation of binaries</a>.
+</p>
+
+<p>
+You will get a standard installation of the source code by unpacking
+it in your home directory:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>cd $HOME</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+For installations elsewhere, see <a href="#nonstandard">below</a>.
+Assuming that you have put <code>gbeta-1.9.11-src.tgz</code> in your
+home directory, you can unpack the archive with:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>gtar xzf gbeta-1.9.11-src.tgz</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+If you are running Linux, <code>gtar</code> is available as
+<code>tar</code>:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>tar xzf gbeta-1.9.11-src.tgz</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+and if you are running on another platform where <code>gtar</code> is
+not available, the following should work:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>gunzip gbeta-1.9.11-src.tgz<BR>tar xf gbeta-1.9.11-src.tar</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+There are a couple of things you might like to know if you want to
+<a href="javascript:top.topics.activate(9);">compile</a> your own version of <font class="gbeta">gbeta</font>.
+<p>
+
+<a name="binary"><h3 class="pagetitle">Binaries</h3>
+
+<p>
+If you have <a href="javascript:top.topics.activate(7);">downloaded</a> one or more binary
+distributions of <font class="gbeta">gbeta</font>, you'll need to unpack them, and the standard
+place to do this is your home directory: 
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>cd $HOME<br></code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+Again, <a href="#nonstandard">alternative placements</a> are possible.
+Then, on Linux:  
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>tar xzf gbeta-1.9.11-i386-linux-elf-bin.tgz</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+On Sun:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>gtar xzf gbeta-1.9.11-sparc-sun-solaris-bin.tgz</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+You may have to use slightly different versions of these commands,
+just like <a href="#source">above</a>, depending on the kind of
+<code>tar</code> your system provides.
+</p>
+
+<a name="path"><h3 class="pagetitle">Adjusting the <code>PATH</code></h3>
+
+<p>
+The <code>PATH</code> environment variable must be enhanced to include
+the position of the script <code>gbeta</code> which is used to invoke
+<font class="gbeta">gbeta</font>.  Since <font class="gbeta">gbeta</font> needs a few environment
+variables you cannot just run it on its own, and the script is there
+to select the right platform and to provide the correct environment.
+In a standard installation, this could be achieved by adding one extra
+statement in your shell startup script:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code># users of sh family shells (sh,bash,ksh,pdksh,ash..)<BR>
+            # would add this to ~/.profile or ~/.bash_profile or ..<BR>
+            PATH=$PATH:$HOME/gbeta-1.9.11/bin</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+or 
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code># users of csh family shells (csh,tcsh)<BR>
+            # would add this to ~/.login<BR>
+            setenv PATH $PATH:$HOME/gbeta-1.9.11/bin</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+If you prefer that, it is of course possible to use other approaches
+than changing your path, e.g.
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>alias gbeta=$HOME/gbeta-1.9.11/bin/gbeta</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+Now you are ready to <a href="javascript:top.topics.activate(1);">try out</a> your installation by
+using <font class="gbeta">gbeta</font> for some basic tasks. 
+</p>
+
+<a name="windows"><h3 class="pagetitle">Special issues with the Windows version</h3>
+
+<p>
+On the Windows platforms, special considerations are needed because of
+the file system (which is case insensitive, and uses "drive letters"
+such as <code>C:</code> or <code>D:</code>),
+because the shell script language is different and less capable,
+and because tools like <code>tar</code> cannot be assumed to be
+available.
+</p>
+
+<p>
+First, you will need to <a href="javascript:top.topics.activate(7);">download</a> the <font class="gbeta">gbeta</font>
+distribution for Windows.  It is a <code>zip</code>-file, and the
+standard place to unpack it is in <code>C:\</code>.  This will create
+a directory <code>C:\gbeta-1.9.11</code>, with the <font class="gbeta">gbeta</font> executable
+and all the support and example files in various subdirectories
+thereof.
+</p>
+
+<p>
+If you unpack the <font class="gbeta">gbeta</font> distribution some other place than
+<code>C:\</code> then you will need to edit the file
+<code><i>installdir</i>\gbeta-1.9.11\bin\gbeta.bat</code>, in order to
+ensure that the environment variable <code>GBETA_ROOT</code> actually
+points to the root directory of the installation, 
+<code><i>installdir</i>\gbeta-1.9.11</code>.  It is indicated
+inside <code>gbeta.bat</code> where to make this change, and it only
+involves editing one line of the file.
+</p>
+
+<p>
+Next, copy <code>%GBETA_ROOT%\bin\gbeta.bat</code> into some directory
+in your <code>PATH</code>, such that you can execute <font class="gbeta">gbeta</font> simply as
+<code>gbeta</code>, without giving the full path to it.
+</p>
+
+<p>
+Note that there is a problem with source code highlighting in the
+command prompt on newer Windows platforms, and this means that a
+<font class="gbeta">gbeta</font> debugging or exploration session (using option <code>-i</code>)
+is impractical in a command prompt window.  Hence, <font class="gbeta">gbeta</font> debugging
+and exploration sessions on Windows platforms should be carried out
+under Emacs.  The problem is that there is no support for ANSI escape
+sequences in newer versions of the Windows command prompt.  Under
+older versions of Windows, ANSI escape sequences can be enabled by
+having a <code>device=c:\windows\system32\ansi.sys</code> command in
+the <code>CONFIG.SYS</code>.  If in doubt, try to add such a command
+(note that the exact path to <code>ansi.sys</code> may need to be
+adjusted to match your installation of Windows).
+For the initial experiments described in <a href="javascript:top.topics.activate(1);">"Getting
+Started"</a>, it should be manageable to run <font class="gbeta">gbeta</font> from the command
+prompt with option <code>-cn</code> which does not use escape
+sequences, but it is recommended to use Emacs as soon as possible.
+</p>
+
+<p>
+A Windows version of GNU Emacs can be downloaded from here:
+<a href="ftp://ftp.cs.washington.edu/pub/ntemacs/latest/" target="_blank">ftp://ftp.cs.washington.edu/pub/ntemacs/latest/</a>.  This
+version of <font class="gbeta">gbeta</font> (1.9.11) was tested with version 20.7 of GNU Emacs
+on Windows XP.
+</p>
+
+<p>
+Now you are ready to <a href="javascript:top.topics.activate(1);">try out</a> your installation by
+using <font class="gbeta">gbeta</font> for some basic tasks. 
+</p>
+
+<a name="nonstandard"><h3 class="pagetitle">Installing Elsewhere</h3>
+
+<p>
+It is possible to install <font class="gbeta">gbeta</font> in a different place than your home
+directory.  Assuming that you have unpacked the files in the directory
+<code><i>MYDIR</i></code>, you must edit the script which is used to
+invoke <font class="gbeta">gbeta</font>.  With e.g. emacs as the editor that amounts to:
+</p>
+
+  
+<p>
+  <div align="center">
+    <table border=2 cellpadding=10 bgcolor="#FEFEFF">
+      <tr><td><code>cd <i>MYDIR</i>/gbeta-1.9.11/bin<BR>
+            chmod u+w gbeta<BR>emacs gbeta</code></td></tr>
+    </table>
+  </div>
+</p>
+
+<p>
+In the editor you should change the assignment of
+<code>GBETA_ROOT</code> to:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>...
+GBETA_ROOT=${GBETA_ROOT:-<i>MYDIR</i>/gbeta-$GBETA_VERSION}
+
+# ----- INSTALL END ----- 
+...</pre></td></tr>
+  </table>
+</p>
+
+<p>
+Alternatively, you can leave the <code>gbeta</code> script unchanged
+and assign to the evironment variable <code>GBETA_ROOT</code>, by
+putting the following into your shell startup file:
+</p>
+
+
+<p>
+  <table border=2 cellpadding=10 width=90% bgcolor="#FFFFFF">
+    <tr><td><pre>
+# for sh-family shells:
+export GBETA_ROOT=<i>MYDIR</i>/gbeta-1.9.11
+
+# for csh-family shells:
+setenv GBETA_ROOT <i>MYDIR</i>/gbeta-1.9.11</pre></td></tr>
+  </table>
+</p>
+
+<p>
+Please note that creating an alias or similar to make it possible to
+execute the <code>gbeta</code> script is not sufficient when
+<font class="gbeta">gbeta</font> is installed in another place than your home directory:
+the grammar specifications can not be found if <code>GBETA_ROOT</code>
+does not point to the right directory.
+</p>
+
+<p>
+<strong>For system administrators</strong> of UNIX-like multi-user
+systems wishing to install <font class="gbeta">gbeta</font> such that all users on the system
+can use it, the following should work:
+
+<ul>
+  <li>Untar the binary distribution in a suitable place, e.g.,
+      in <code>/opt</code> or in <code>/usr/local</code>.</li>
+  <li>Change the owner and permissions such that all users may
+      execute the scripts in the <code>bin</code> directory of
+      the <font class="gbeta">gbeta</font> installation and read all files
+      everywhere in the installation, but no file in there
+      is writable by anybody but the owner. 
+      The owner could be a fresh owner named <code>gbeta</code>.</li>
+  <li>Instruct users to set <code>$GBETA_ROOT</code>, and to add the 
+      directory <code>$GBETA_ROOT/bin</code> to their
+      <code>$PATH</code>.  Alternatively, put up a link somewhere in
+      the <code>$PATH</code> that people already have, pointing to
+      <code>$GBETA_ROOT/bin/gbeta</code>, but note that people must
+      still set the variable <code>$GBETA_ROOT</code> unless this is
+      done in <code>/etc/profile</code> or elsewhere globally.
+  <li>Since <font class="gbeta">gbeta</font> source files are translated to files containing
+      abstract syntax trees in the same location, ordinary users cannot
+      run the example programs where they are installed (because they
+      get a permission violation error when the abstract syntax
+      files are generated), so they must be instructed to copy the 
+      examples to their home directories before running them.
+  <li>Off they go!</li>
+</ul>
+
+<p><hr></p>
+<address>
+  <strong>Maintainer:</strong>
+  Erik Ernst,
+  <a href="mailto:eernst@cs.au.dk">eernst@cs.au.dk</a>.<br><br>
+  This page was updated on 17-Apr-2011
+<br>
+  URL - http://cs.au.dk/~eernst/gbeta/installation.html
+</address>
+</body>
+</html>
+
